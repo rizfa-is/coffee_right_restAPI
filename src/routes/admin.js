@@ -14,7 +14,7 @@ const {
 const uploadImage = require('../middleware/multer')
 
 router.get('/', authorization, getAllAdmin)
-router.get('/detail/:cnId', authorization, getAdminById)
-router.put('/:cnId', authorization, uploadImage, updateAdmin)
+router.get('/detail/:adId', authorization, getAdminById)
+router.put('/:adId', authorization, uploadImage, updateAdmin)
 
 module.exports = router

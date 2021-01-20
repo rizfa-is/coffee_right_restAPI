@@ -29,10 +29,10 @@ module.exports = {
   },
 
   getAdminById: async (req, res, _next) => {
-    const { cnId } = req.params
+    const { adId } = req.params
 
     try {
-      const result = await getAdminById(cnId)
+      const result = await getAdminById(adId)
 
       if (result.length) {
         statusGet(res, result)
@@ -45,10 +45,10 @@ module.exports = {
   },
 
   updateAdmin: async (req, res, _next) => {
-    const { cnId } = req.params
+    const { adId } = req.params
 
     try {
-      const findData = await getAdminByIdAc(cnId)
+      const findData = await getAdminByIdAc(adId)
 
       if (findData.length) {
         req.body.image = req.file === undefined ? findData[0].ad_profile : req.file.filename
@@ -60,7 +60,7 @@ module.exports = {
 
         delete data.image
 
-        const result = await updateAdmin(cnId, data)
+        const result = await updateAdmin(adId, data)
 
         if (result.affectedRows) {
           statusUpdate(res)

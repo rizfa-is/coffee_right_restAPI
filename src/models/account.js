@@ -1,4 +1,4 @@
-const dbConnect = require('../helpers/db')
+const dbConnect = require('../config/db')
 
 const { createCustomer } = require('./customer')
 const { createAdmin } = require('./admin')
@@ -25,9 +25,7 @@ module.exports = {
             await createCustomer(res.insertId)
           } else {
             await createAdmin({
-              ac_id: res.insertId,
-              ad_admin: data.ad_admin,
-              ad_position: data.ad_position
+              ac_id: res.insertId
             })
           }
 

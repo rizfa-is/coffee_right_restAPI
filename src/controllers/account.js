@@ -99,7 +99,7 @@ module.exports = {
     try {
       const { email, password } = req.body
       const findData = await getAccountByEmail(email)
-
+      console.log(findData)
       if (findData.length) {
         let result
 
@@ -111,7 +111,6 @@ module.exports = {
 
         if (result.length) {
           const match = await bcrypt.compare(password, findData[0].ac_password)
-
           if (match) {
             let payload
 
@@ -133,7 +132,6 @@ module.exports = {
                 ac_level: findData[0].ac_level,
                 ac_email: findData[0].ac_email,
                 ac_phone: findData[0].ac_phone
-
               }
             }
 

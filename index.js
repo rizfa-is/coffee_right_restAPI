@@ -25,6 +25,8 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use('/images', express.static('./uploads'))
+
 // Routes access
 app.use('/account', accountRouter)
 app.use('/customer', customerRouter)
@@ -35,5 +37,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Listen StarworkS backend on port ${port}`)
+  console.log(`Listen Coffe Right backend on port ${port}`)
 })

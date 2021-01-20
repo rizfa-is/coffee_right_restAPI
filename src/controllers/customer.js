@@ -1,12 +1,8 @@
 const {
   getAllCustomer,
-  getSearchCustomer,
   getCustomerById,
-  updateCustomer,
-  getFilterCustomer
+  updateCustomer
 } = require('../models/customer')
-
-const isEmpty = require('lodash.isempty')
 
 const {
   statusGet,
@@ -17,35 +13,9 @@ const {
 } = require('../helpers/status')
 
 module.exports = {
-  getAllCustomer: async (req, res, _next) => {
-    let { search, limit, page } = req.query
-
-    if (!limit) {
-      limit = 10
-    } else {
-      limit = parseInt(limit)
-    }
-
-    if (!page) {
-      page = 1
-    } else {
-      page = parseInt(page)
-    }
-
-    const paginate = {
-      search: search,
-      limit: limit,
-      offset: (page - 1) * limit
-    }
-
+  getAllCustomer: async (_req, res, _next) => {
     try {
-      let result
-
-      if (isEmpty(search)) {
-        result = await getAllCustomer(paginate)
-      } else {
-        result = await getSearchCustomer(paginate)
-      }
+      const result = await getAllCustomer()
 
       if (result.length) {
         statusGet(res, result)
@@ -58,10 +28,10 @@ module.exports = {
   },
 
   getCustomerById: async (req, res, _next) => {
-    const { enId } = req.params
+    const { csId } = req.params
 
     try {
-      const result = await getCustomerById(enId)
+      const result = await getCustomerById(csId)
 
       if (result.length) {
         statusGet(res, result)
@@ -69,56 +39,15 @@ module.exports = {
         statusNotFound(res)
       }
     } catch (error) {
-      statusServerError(res)
-    }
-  },
-
-  getFilterCustomer: async (req, res, _next) => {
-    let { filter, limit, page } = req.query
-
-    if (!limit) {
-      limit = 10
-    } else {
-      limit = parseInt(limit)
-    }
-
-    if (!page) {
-      page = 1
-    } else {
-      page = parseInt(page)
-    }
-
-    const paginate = {
-      filter: filter,
-      limit: limit,
-      offset: (page - 1) * limit
-    }
-
-    try {
-      let result
-
-      if (isEmpty(filter)) {
-        result = await getAllCustomer(paginate)
-      } else {
-        result = await getFilterCustomer(paginate)
-      }
-
-      if (result.length) {
-        statusGet(res, result)
-      } else {
-        statusNotFound(res)
-      }
-    } catch (error) {
-      console.error(error)
       statusServerError(res)
     }
   },
 
   updateCustomer: async (req, res, _next) => {
-    const { enId } = req.params
+    const { csId } = req.params
 
     try {
-      const findData = await getCustomerById(enId)
+      const findData = await getCustomerById(csId)
 
       if (findData.length) {
         req.body.image = req.file === undefined ? findData[0].cs_profile : req.file.filename
@@ -130,7 +59,7 @@ module.exports = {
 
         delete data.image
 
-        const result = await updateCustomer(enId, data)
+        const result = await updateCustomer(csId, data)
 
         if (result.affectedRows) {
           statusUpdate(res)

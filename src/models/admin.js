@@ -1,4 +1,4 @@
-const dbConnect = require('../helpers/db')
+const dbConnect = require('../config/db')
 
 module.exports = {
   createAdmin: (data) => {
@@ -22,9 +22,9 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT *
-          FROM admin cn
+          FROM admin ad
           JOIN account ac
-            ON ac.ac_id = cn.ac_id
+            ON ac.ac_id = ad.ac_id
       `
 
       dbConnect.query(query, (error, results, _fields) => {
@@ -40,20 +40,13 @@ module.exports = {
   getAdminById: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT cn.ad_id,
+        SELECT ad.ad_id,
+               ad.ad_image,
                ac.ac_id,
-               ac.ac_name,
-               cn.ad_admin,
-               cn.ad_position,
-               cn.ad_field,
-               cn.ad_city,
-               cn.ad_description,
-               cn.ad_instagram,
-               cn.ad_linkedin,
-               cn.ad_profile
-          FROM admin cn
+               ac.ac_name
+          FROM admin ad
           JOIN account ac
-            ON ac.ac_id = cn.ac_id
+            ON ac.ac_id = ad.ac_id
          WHERE ac.?
       `
 
@@ -67,27 +60,21 @@ module.exports = {
     })
   },
 
-  getAdminByIdAc: (cnId) => {
+  getAdminByIdAc: (adId) => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT cn.ad_id,
+        SELECT ad.ad_id,
+               ad.ad_image,
                ac.ac_id,
                ac.ac_name,
-               cn.ad_admin,
-               cn.ad_position,
-               cn.ad_field,
-               cn.ad_city,
-               cn.ad_description,
-               cn.ad_instagram,
-               cn.ad_linkedin,
-               cn.ad_profile
-          FROM admin cn
+               ac.ac_phone
+          FROM admin ad
           JOIN account ac
-            ON ac.ac_id = cn.ac_id
-         WHERE cn.?
+            ON ac.ac_id = ad.ac_id
+         WHERE ad.?
       `
 
-      dbConnect.query(query, { ad_id: cnId }, (error, results, _fields) => {
+      dbConnect.query(query, { ad_id: adId }, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
@@ -97,12 +84,12 @@ module.exports = {
     })
   },
 
-  updateAdmin: (cnId, data) => {
+  updateAdmin: (adId, data) => {
     return new Promise((resolve, reject) => {
       const query = `
         UPDATE admin
            SET ?
-         WHERE ad_id = ${cnId}
+         WHERE ad_id = ${adId}
       `
 
       dbConnect.query(query, data, (error, results, _fields) => {
