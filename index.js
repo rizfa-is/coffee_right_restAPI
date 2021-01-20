@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 require('dotenv').config()
 const bodyParser = require('body-parser')
 const express = require('express')
@@ -31,6 +32,20 @@ app.use('/images', express.static('./uploads'))
 app.use('/account', accountRouter)
 app.use('/customer', customerRouter)
 app.use('/admin', adminRouter)
+=======
+const express = require('express')
+const app = express()
+
+require('dotenv').config()
+const port = process.env.PORT
+
+const bodyParser = require('body-parser')
+const productRouter = require('./src/routes/product')
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use('/product', productRouter)
+>>>>>>> e192da17f5660922832ef1882ea5319cd9e73b99
 
 app.get('/', (req, res) => {
   res.send('Welcome to Coffee Right')
