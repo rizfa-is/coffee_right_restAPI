@@ -1,7 +1,6 @@
 const {
   getAllAdmin,
   getAdminById,
-  getAdminByIdAc,
   updateAdmin
 } = require('../models/admin')
 
@@ -48,7 +47,7 @@ module.exports = {
     const { adId } = req.params
 
     try {
-      const findData = await getAdminByIdAc(adId)
+      const findData = await getAdminById(adId)
 
       if (findData.length) {
         req.body.image = req.file === undefined ? findData[0].ad_profile : req.file.filename

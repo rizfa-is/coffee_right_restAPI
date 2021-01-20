@@ -37,13 +37,14 @@ module.exports = {
     })
   },
 
-  getAdminById: (acId) => {
+  getAdminByIdAc: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT ad.ad_id,
                ad.ad_image,
                ac.ac_id,
-               ac.ac_name
+               ac.ac_name,
+               ac.ac_phone
           FROM admin ad
           JOIN account ac
             ON ac.ac_id = ad.ac_id
@@ -60,14 +61,13 @@ module.exports = {
     })
   },
 
-  getAdminByIdAc: (adId) => {
+  getAdminById: (adId) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT ad.ad_id,
                ad.ad_image,
                ac.ac_id,
-               ac.ac_name,
-               ac.ac_phone
+               ac.ac_name
           FROM admin ad
           JOIN account ac
             ON ac.ac_id = ad.ac_id

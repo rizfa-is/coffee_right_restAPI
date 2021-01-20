@@ -10,11 +10,11 @@ const {
 } = require('../models/account')
 
 const {
-  getCustomerById
+  getCustomerByIdAc
 } = require('../models/customer')
 
 const {
-  getAdminById
+  getAdminByIdAc
 } = require('../models/admin')
 
 const {
@@ -99,14 +99,13 @@ module.exports = {
     try {
       const { email, password } = req.body
       const findData = await getAccountByEmail(email)
-      console.log(findData)
       if (findData.length) {
         let result
 
         if (findData[0].ac_level === 0) {
-          result = await getCustomerById(findData[0].ac_id)
+          result = await getCustomerByIdAc(findData[0].ac_id)
         } else {
-          result = await getAdminById(findData[0].ac_id)
+          result = await getAdminByIdAc(findData[0].ac_id)
         }
 
         if (result.length) {

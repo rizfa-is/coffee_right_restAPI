@@ -37,7 +37,7 @@ module.exports = {
     })
   },
 
-  getCustomerById: (acId) => {
+  getCustomerByIdAc: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT cs.cs_id,
@@ -52,6 +52,30 @@ module.exports = {
       `
 
       dbConnect.query(query, { ac_id: acId }, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+
+  getCustomerById: (csId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT cs.cs_id,
+               ac.ac_id,
+               ac.ac_name,
+               cs.cs_address,
+               cs.cs_image
+          FROM customer cs
+          JOIN account ac
+            ON ac.ac_id = cs.ac_id
+         WHERE cs.?
+      `
+
+      dbConnect.query(query, { cs_id: csId }, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
