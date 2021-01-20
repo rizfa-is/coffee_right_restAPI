@@ -1,14 +1,15 @@
 require('dotenv').config()
 const bodyParser = require('body-parser')
 const express = require('express')
-const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
+const app = express()
 const port = process.env.PORT
 
 const accountRouter = require('./src/routes/account')
 const customerRouter = require('./src/routes/customer')
 const adminRouter = require('./src/routes/admin')
+const productRouter = require('./src/routes/product')
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -27,7 +28,7 @@ app.use((req, res, next) => {
 
 app.use('/images', express.static('./uploads'))
 
-// Routes access
+app.use('/product', productRouter)
 app.use('/account', accountRouter)
 app.use('/customer', customerRouter)
 app.use('/admin', adminRouter)
