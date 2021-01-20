@@ -6,7 +6,8 @@ const {
   createAccount,
   updateAccount,
   getAccountById,
-  getAccountByEmail
+  getAccountByEmail,
+  deleteAccount
 } = require('../models/account')
 
 const {
@@ -28,6 +29,8 @@ const {
   statusLoginFail,
   statusNotFound,
   statusNotFoundAccount,
+  statusDelete,
+  statusDeleteFail,
   statusServerError,
   statusTokenError
 } = require('../helpers/status')
@@ -187,6 +190,27 @@ module.exports = {
         statusGet(res, result)
       } else {
         statusNotFoundAccount(res)
+      }
+    } catch (err) {
+      statusServerError(res)
+    }
+  },
+
+  deleteAccount: async (req, res, _next) => {
+    try {
+      const { acId } = req.params
+      const findData = await getAccountById(acId)
+
+      if (findData.length) {
+        const result = await deleteAccount(acId)
+
+        if (result.affectedRows) {
+          statusDelete(res)
+        } else {
+          statusDeleteFail(res)
+        }
+      } else {
+        statusNotFound(res)
       }
     } catch (err) {
       statusServerError(res)

@@ -50,11 +50,11 @@ module.exports = {
       const findData = await getAdminById(adId)
 
       if (findData.length) {
-        req.body.image = req.file === undefined ? findData[0].ad_profile : req.file.filename
+        req.body.image = req.file === undefined ? findData[0].ad_image : req.file.filename
 
         const data = {
           ...req.body,
-          ad_profile: req.body.image
+          ad_image: req.body.image
         }
 
         delete data.image
