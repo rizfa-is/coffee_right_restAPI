@@ -1,8 +1,8 @@
 const {
-  getAllCompany,
-  getCompanyById,
-  getCompanyByIdAc,
-  updateCompany
+  getAllAdmin,
+  getAdminById,
+  getAdminByIdAc,
+  updateAdmin
 } = require('../models/admin')
 
 const {
@@ -14,9 +14,9 @@ const {
 } = require('../helpers/status')
 
 module.exports = {
-  getAllCompany: async (_req, res, _next) => {
+  getAllAdmin: async (_req, res, _next) => {
     try {
-      const result = await getAllCompany()
+      const result = await getAllAdmin()
 
       if (result.length) {
         statusGet(res, result)
@@ -28,11 +28,11 @@ module.exports = {
     }
   },
 
-  getCompanyById: async (req, res, _next) => {
+  getAdminById: async (req, res, _next) => {
     const { cnId } = req.params
 
     try {
-      const result = await getCompanyById(cnId)
+      const result = await getAdminById(cnId)
 
       if (result.length) {
         statusGet(res, result)
@@ -44,11 +44,11 @@ module.exports = {
     }
   },
 
-  updateCompany: async (req, res, _next) => {
+  updateAdmin: async (req, res, _next) => {
     const { cnId } = req.params
 
     try {
-      const findData = await getCompanyByIdAc(cnId)
+      const findData = await getAdminByIdAc(cnId)
 
       if (findData.length) {
         req.body.image = req.file === undefined ? findData[0].cn_profile : req.file.filename
@@ -60,7 +60,7 @@ module.exports = {
 
         delete data.image
 
-        const result = await updateCompany(cnId, data)
+        const result = await updateAdmin(cnId, data)
 
         if (result.affectedRows) {
           statusUpdate(res)

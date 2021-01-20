@@ -10,11 +10,11 @@ const {
 } = require('../models/account')
 
 const {
-  getEngineerById
+  getCustomerById
 } = require('../models/customer')
 
 const {
-  getCompanyById
+  getAdminById
 } = require('../models/admin')
 
 const {
@@ -104,9 +104,9 @@ module.exports = {
         let result
 
         if (findData[0].ac_level === 0) {
-          result = await getEngineerById(findData[0].ac_id)
+          result = await getCustomerById(findData[0].ac_id)
         } else {
-          result = await getCompanyById(findData[0].ac_id)
+          result = await getAdminById(findData[0].ac_id)
         }
 
         if (result.length) {

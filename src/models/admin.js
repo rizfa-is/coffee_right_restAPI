@@ -1,7 +1,7 @@
 const dbConnect = require('../helpers/db')
 
 module.exports = {
-  createCompany: (data) => {
+  createAdmin: (data) => {
     return new Promise((resolve, reject) => {
       const query = `
         INSERT INTO admin
@@ -18,7 +18,7 @@ module.exports = {
     })
   },
 
-  getAllCompany: () => {
+  getAllAdmin: () => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT *
@@ -37,7 +37,7 @@ module.exports = {
     })
   },
 
-  getCompanyById: (acId) => {
+  getAdminById: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT cn.cn_id,
@@ -67,7 +67,7 @@ module.exports = {
     })
   },
 
-  getCompanyByIdAc: (cnId) => {
+  getAdminByIdAc: (cnId) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT cn.cn_id,
@@ -97,7 +97,7 @@ module.exports = {
     })
   },
 
-  updateCompany: (cnId, data) => {
+  updateAdmin: (cnId, data) => {
     return new Promise((resolve, reject) => {
       const query = `
         UPDATE admin

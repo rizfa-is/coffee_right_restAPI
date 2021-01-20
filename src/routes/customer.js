@@ -2,10 +2,10 @@ const express = require('express')
 const router = express.Router()
 
 const {
-  getAllEngineer,
-  getEngineerById,
-  getFilterEngineer,
-  updateEngineer
+  getAllCustomer,
+  getCustomerById,
+  getFilterCustomer,
+  updateCustomer
 } = require('../controllers/customer')
 
 const {
@@ -14,9 +14,9 @@ const {
 
 const uploadImage = require('../middleware/multer')
 
-router.get('/', authorization, getAllEngineer)
-router.get('/detail/:enId', authorization, getEngineerById)
-router.get('/filter', authorization, getFilterEngineer)
-router.put('/:enId', authorization, uploadImage, updateEngineer)
+router.get('/', authorization, getAllCustomer)
+router.get('/detail/:enId', authorization, getCustomerById)
+router.get('/filter', authorization, getFilterCustomer)
+router.put('/:enId', authorization, uploadImage, updateCustomer)
 
 module.exports = router

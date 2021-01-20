@@ -1,9 +1,9 @@
 const {
-  getAllEngineer,
-  getSearchEngineer,
-  getEngineerById,
-  updateEngineer,
-  getFilterEngineer
+  getAllCustomer,
+  getSearchCustomer,
+  getCustomerById,
+  updateCustomer,
+  getFilterCustomer
 } = require('../models/customer')
 
 const isEmpty = require('lodash.isempty')
@@ -17,7 +17,7 @@ const {
 } = require('../helpers/status')
 
 module.exports = {
-  getAllEngineer: async (req, res, _next) => {
+  getAllCustomer: async (req, res, _next) => {
     let { search, limit, page } = req.query
 
     if (!limit) {
@@ -42,9 +42,9 @@ module.exports = {
       let result
 
       if (isEmpty(search)) {
-        result = await getAllEngineer(paginate)
+        result = await getAllCustomer(paginate)
       } else {
-        result = await getSearchEngineer(paginate)
+        result = await getSearchCustomer(paginate)
       }
 
       if (result.length) {
@@ -57,11 +57,11 @@ module.exports = {
     }
   },
 
-  getEngineerById: async (req, res, _next) => {
+  getCustomerById: async (req, res, _next) => {
     const { enId } = req.params
 
     try {
-      const result = await getEngineerById(enId)
+      const result = await getCustomerById(enId)
 
       if (result.length) {
         statusGet(res, result)
@@ -73,7 +73,7 @@ module.exports = {
     }
   },
 
-  getFilterEngineer: async (req, res, _next) => {
+  getFilterCustomer: async (req, res, _next) => {
     let { filter, limit, page } = req.query
 
     if (!limit) {
@@ -98,9 +98,9 @@ module.exports = {
       let result
 
       if (isEmpty(filter)) {
-        result = await getAllEngineer(paginate)
+        result = await getAllCustomer(paginate)
       } else {
-        result = await getFilterEngineer(paginate)
+        result = await getFilterCustomer(paginate)
       }
 
       if (result.length) {
@@ -114,11 +114,11 @@ module.exports = {
     }
   },
 
-  updateEngineer: async (req, res, _next) => {
+  updateCustomer: async (req, res, _next) => {
     const { enId } = req.params
 
     try {
-      const findData = await getEngineerById(enId)
+      const findData = await getCustomerById(enId)
 
       if (findData.length) {
         req.body.image = req.file === undefined ? findData[0].en_profile : req.file.filename
@@ -130,7 +130,7 @@ module.exports = {
 
         delete data.image
 
-        const result = await updateEngineer(enId, data)
+        const result = await updateCustomer(enId, data)
 
         if (result.affectedRows) {
           statusUpdate(res)

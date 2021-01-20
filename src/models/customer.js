@@ -3,7 +3,7 @@ const dbConnect = require('../helpers/db')
 // const { getAllSkillById } = require('../models/skill')
 
 module.exports = {
-  createEngineer: (acId) => {
+  createCustomer: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `
         INSERT INTO customer
@@ -20,7 +20,7 @@ module.exports = {
     })
   },
 
-  getAllEngineer: (paginate) => {
+  getAllCustomer: (paginate) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT en.en_id,
@@ -68,7 +68,7 @@ module.exports = {
     })
   },
 
-  getSearchEngineer: (paginate) => {
+  getSearchCustomer: (paginate) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT en.en_id,
@@ -119,7 +119,7 @@ module.exports = {
     })
   },
 
-  getEngineerById: (acId) => {
+  getCustomerById: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT en.en_id,
@@ -145,7 +145,7 @@ module.exports = {
     })
   },
 
-  getFilterEngineer: (paginate) => {
+  getFilterCustomer: (paginate) => {
     return new Promise((resolve, reject) => {
       const filter = parseInt(paginate.filter)
       let fill
@@ -215,7 +215,7 @@ module.exports = {
     })
   },
 
-  updateEngineer: (enId, data) => {
+  updateCustomer: (enId, data) => {
     return new Promise((resolve, reject) => {
       const query = `
         UPDATE customer

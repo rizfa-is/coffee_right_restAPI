@@ -1,7 +1,7 @@
 const dbConnect = require('../helpers/db')
 
-const { createEngineer } = require('./customer')
-const { createCompany } = require('./admin')
+const { createCustomer } = require('./customer')
+const { createAdmin } = require('./admin')
 
 module.exports = {
   createAccount: (data) => {
@@ -22,9 +22,9 @@ module.exports = {
       dbConnect.query(query, dataAcc, async (err, res, _fields) => {
         if (!err) {
           if (parseInt(data.ac_level) === 0) {
-            await createEngineer(res.insertId)
+            await createCustomer(res.insertId)
           } else {
-            await createCompany({
+            await createAdmin({
               ac_id: res.insertId,
               cn_admin: data.cn_admin,
               cn_position: data.cn_position

@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 const {
-  getAllCompany,
-  getCompanyById,
-  updateCompany
+  getAllAdmin,
+  getAdminById,
+  updateAdmin
 } = require('../controllers/admin')
 
 const {
@@ -13,8 +13,8 @@ const {
 
 const uploadImage = require('../middleware/multer')
 
-router.get('/', authorization, getAllCompany)
-router.get('/detail/:cnId', authorization, getCompanyById)
-router.put('/:cnId', authorization, uploadImage, updateCompany)
+router.get('/', authorization, getAllAdmin)
+router.get('/detail/:cnId', authorization, getAdminById)
+router.put('/:cnId', authorization, uploadImage, updateAdmin)
 
 module.exports = router
