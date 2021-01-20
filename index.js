@@ -31,7 +31,7 @@ app.use('/customer', customerRouter)
 app.use('/admin', adminRouter)
 
 app.get('/', (req, res) => {
-  res.send('Welcome to StarworkS')
+  res.send('Welcome to Coffee Right')
 })
 
 app.listen(port, () => {

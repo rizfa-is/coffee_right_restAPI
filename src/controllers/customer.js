@@ -121,11 +121,11 @@ module.exports = {
       const findData = await getCustomerById(enId)
 
       if (findData.length) {
-        req.body.image = req.file === undefined ? findData[0].en_profile : req.file.filename
+        req.body.image = req.file === undefined ? findData[0].cs_profile : req.file.filename
 
         const data = {
           ...req.body,
-          en_profile: req.body.image
+          cs_profile: req.body.image
         }
 
         delete data.image

@@ -26,8 +26,8 @@ module.exports = {
           } else {
             await createAdmin({
               ac_id: res.insertId,
-              cn_admin: data.cn_admin,
-              cn_position: data.cn_position
+              ad_admin: data.ad_admin,
+              ad_position: data.ad_position
             })
           }
 

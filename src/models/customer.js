@@ -23,17 +23,17 @@ module.exports = {
   getAllCustomer: (paginate) => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT en.en_id,
+        SELECT en.cs_id,
                ac.ac_id,
                ac.ac_name,
-               en.en_job_title,
-               en.en_job_type,
-               en.en_domicile,
-               en.en_profile
+               en.cs_job_title,
+               en.cs_job_type,
+               en.cs_domicile,
+               en.cs_profile
           FROM customer en
           JOIN account ac
             ON ac.ac_id = en.ac_id
-         WHERE en.en_job_title != ''
+         WHERE en.cs_job_title != ''
       ORDER BY ac.ac_id
          LIMIT ${paginate.limit}
         OFFSET ${paginate.offset}
@@ -46,17 +46,17 @@ module.exports = {
           for (let i = 0; i < results.length; i++) {
             const item = results[i]
 
-            const skill = await getAllSkillById(item.en_id)
+            const skill = await getAllSkillById(item.cs_id)
 
             data[i] = {
-              en_id: item.en_id,
+              cs_id: item.cs_id,
               ac_id: item.ac_id,
               ac_name: item.ac_name,
-              en_job_title: item.en_job_title,
-              en_job_type: item.en_job_type,
-              en_domicile: item.en_domicile,
-              en_profile: item.en_profile,
-              en_skill: skill
+              cs_job_title: item.cs_job_title,
+              cs_job_type: item.cs_job_type,
+              cs_domicile: item.cs_domicile,
+              cs_profile: item.cs_profile,
+              cs_skill: skill
             }
           }
 
@@ -71,13 +71,13 @@ module.exports = {
   getSearchCustomer: (paginate) => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT en.en_id,
+        SELECT en.cs_id,
                ac.ac_id,
                ac.ac_name,
-               en.en_job_title,
-               en.en_job_type,
-               en.en_domicile,
-               en.en_profile
+               en.cs_job_title,
+               en.cs_job_type,
+               en.cs_domicile,
+               en.cs_profile
           FROM customer en
           JOIN account ac 
             ON (ac.ac_id = en.ac_id)
@@ -97,17 +97,17 @@ module.exports = {
           for (let i = 0; i < results.length; i++) {
             const item = results[i]
 
-            const skill = await getAllSkillById(item.en_id)
+            const skill = await getAllSkillById(item.cs_id)
 
             data[i] = {
-              en_id: item.en_id,
+              cs_id: item.cs_id,
               ac_id: item.ac_id,
               ac_name: item.ac_name,
-              en_job_title: item.en_job_title,
-              en_job_type: item.en_job_type,
-              en_domicile: item.en_domicile,
-              en_profile: item.en_profile,
-              en_skill: skill
+              cs_job_title: item.cs_job_title,
+              cs_job_type: item.cs_job_type,
+              cs_domicile: item.cs_domicile,
+              cs_profile: item.cs_profile,
+              cs_skill: skill
             }
           }
 
@@ -122,13 +122,13 @@ module.exports = {
   getCustomerById: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT en.en_id,
+        SELECT en.cs_id,
                ac.ac_id,
                ac.ac_name,
-               en.en_job_title,
-               en.en_job_type,
-               en.en_profile,
-               en.en_domicile
+               en.cs_job_title,
+               en.cs_job_type,
+               en.cs_profile,
+               en.cs_domicile
           FROM customer en
           JOIN account ac
             ON ac.ac_id = en.ac_id
@@ -158,29 +158,29 @@ module.exports = {
         fill = 'sk.sk_skill_name'
         where = ''
       } else if (filter === 2) {
-        fill = 'en.en_domicile'
+        fill = 'en.cs_domicile'
         where = ''
       } else if (filter === 3) {
-        fill = 'en.en_job_type'
-        where = "WHERE en.en_job_type = 'freelance'"
+        fill = 'en.cs_job_type'
+        where = "WHERE en.cs_job_type = 'freelance'"
       } else {
-        fill = 'en.en_job_type'
-        where = "WHERE en.en_job_type = 'full time'"
+        fill = 'en.cs_job_type'
+        where = "WHERE en.cs_job_type = 'full time'"
       }
 
       const query = `
-          SELECT en.en_id,
+          SELECT en.cs_id,
                  ac.ac_id,
                  ac.ac_name,
-                 en.en_job_title,
-                 en.en_job_type,
-                 en.en_domicile,
-                 en.en_profile
+                 en.cs_job_title,
+                 en.cs_job_type,
+                 en.cs_domicile,
+                 en.cs_profile
             FROM customer en
             JOIN account ac
               ON ac.ac_id = en.ac_id
                  ${where}
-             AND en.en_job_title != ''
+             AND en.cs_job_title != ''
         ORDER BY ${fill}
            LIMIT ${paginate.limit} 
           OFFSET ${paginate.offset}
@@ -193,17 +193,17 @@ module.exports = {
           for (let i = 0; i < results.length; i++) {
             const item = results[i]
 
-            const skill = await getAllSkillById(item.en_id)
+            const skill = await getAllSkillById(item.cs_id)
 
             data[i] = {
-              en_id: item.en_id,
+              cs_id: item.cs_id,
               ac_id: item.ac_id,
               ac_name: item.ac_name,
-              en_job_title: item.en_job_title,
-              en_job_type: item.en_job_type,
-              en_domicile: item.en_domicile,
-              en_profile: item.en_profile,
-              en_skill: skill
+              cs_job_title: item.cs_job_title,
+              cs_job_type: item.cs_job_type,
+              cs_domicile: item.cs_domicile,
+              cs_profile: item.cs_profile,
+              cs_skill: skill
             }
           }
 
@@ -220,7 +220,7 @@ module.exports = {
       const query = `
         UPDATE customer
            SET ?
-         WHERE en_id = ${enId}
+         WHERE cs_id = ${enId}
       `
 
       dbConnect.query(query, data, (error, results, _fields) => {

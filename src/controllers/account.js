@@ -117,7 +117,7 @@ module.exports = {
 
             if (findData[0].ac_level === 0) {
               payload = {
-                en_id: result[0].en_id,
+                cs_id: result[0].cs_id,
                 ac_id: findData[0].ac_id,
                 ac_name: findData[0].ac_name,
                 ac_level: findData[0].ac_level,
@@ -127,7 +127,7 @@ module.exports = {
               }
             } else {
               payload = {
-                cn_id: result[0].cn_id,
+                ad_id: result[0].ad_id,
                 ac_id: findData[0].ac_id,
                 ac_name: findData[0].ac_name,
                 ac_level: findData[0].ac_level,
@@ -137,7 +137,7 @@ module.exports = {
               }
             }
 
-            JWT.sign({ payload }, process.env.JWT_KEY, { expiresIn: '30d' }, (err, token) => {
+            JWT.sign({ payload }, process.env.JWT_KEY, { expiresIn: '7d' }, (err, token) => {
               if (token) {
                 JWT.verify(token, process.env.JWT_KEY, (_err, data) => {
                   const result = {

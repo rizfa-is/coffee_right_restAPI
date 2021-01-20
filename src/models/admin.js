@@ -40,17 +40,17 @@ module.exports = {
   getAdminById: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT cn.cn_id,
+        SELECT cn.ad_id,
                ac.ac_id,
                ac.ac_name,
-               cn.cn_admin,
-               cn.cn_position,
-               cn.cn_field,
-               cn.cn_city,
-               cn.cn_description,
-               cn.cn_instagram,
-               cn.cn_linkedin,
-               cn.cn_profile
+               cn.ad_admin,
+               cn.ad_position,
+               cn.ad_field,
+               cn.ad_city,
+               cn.ad_description,
+               cn.ad_instagram,
+               cn.ad_linkedin,
+               cn.ad_profile
           FROM admin cn
           JOIN account ac
             ON ac.ac_id = cn.ac_id
@@ -70,24 +70,24 @@ module.exports = {
   getAdminByIdAc: (cnId) => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT cn.cn_id,
+        SELECT cn.ad_id,
                ac.ac_id,
                ac.ac_name,
-               cn.cn_admin,
-               cn.cn_position,
-               cn.cn_field,
-               cn.cn_city,
-               cn.cn_description,
-               cn.cn_instagram,
-               cn.cn_linkedin,
-               cn.cn_profile
+               cn.ad_admin,
+               cn.ad_position,
+               cn.ad_field,
+               cn.ad_city,
+               cn.ad_description,
+               cn.ad_instagram,
+               cn.ad_linkedin,
+               cn.ad_profile
           FROM admin cn
           JOIN account ac
             ON ac.ac_id = cn.ac_id
          WHERE cn.?
       `
 
-      dbConnect.query(query, { cn_id: cnId }, (error, results, _fields) => {
+      dbConnect.query(query, { ad_id: cnId }, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
@@ -102,7 +102,7 @@ module.exports = {
       const query = `
         UPDATE admin
            SET ?
-         WHERE cn_id = ${cnId}
+         WHERE ad_id = ${cnId}
       `
 
       dbConnect.query(query, data, (error, results, _fields) => {
