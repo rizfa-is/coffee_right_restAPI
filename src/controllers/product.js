@@ -32,12 +32,14 @@ module.exports = {
   },
   addProduct: async (req, res) => {
     try {
-      const { prName, prDesc, prUnitPrice, prImage, prCategory, prDayStartDeliv, prEndDayDeliv, prTimeStartDeliv, prTimeEndDeliv } = req.body
+      const { prName, prDesc, prUnitPrice, prCategory, prDayStartDeliv, prEndDayDeliv, prTimeStartDeliv, prTimeEndDeliv } = req.body
+      const image = req.file === undefined ? '' : req.file.filename
+
       const data = {
         pr_name: prName,
         pr_desc: prDesc,
         pr_unit_price: prUnitPrice,
-        pr_image: prImage,
+        pr_image: image,
         pr_category: prCategory,
         pr_day_start_deliv: prDayStartDeliv,
         pr_day_end_deliv: prEndDayDeliv,
@@ -45,7 +47,7 @@ module.exports = {
         pr_time_end_deliv: prTimeEndDeliv
       }
 
-      if (prName.trim() && prDesc.trim && prUnitPrice.trim() && prImage.trim() && prCategory.trim() && prDayStartDeliv.trim() && prEndDayDeliv.trim() && prTimeStartDeliv.trim() && prTimeEndDeliv.trim()) {
+      if (prName.trim() && prDesc.trim() && prUnitPrice.trim() && prCategory.trim() && prDayStartDeliv.trim() && prEndDayDeliv.trim() && prTimeStartDeliv.trim() && prTimeEndDeliv.trim()) {
         const result = await addProductModel(data)
 
         if (result.affectedRows) {
@@ -58,16 +60,23 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
+      console.log(`${error}`)
     }
   },
   updateProductByPrId: async (req, res) => {
     try {
       const { prId } = req.params
-      const data = req.body
       const resultSelect = await getProductByPrIdModel(prId)
+      const image = req.file === undefined ? resultSelect[0].pr_image : req.file.filename
+
+      const data = req.body
+      const setData = {
+        ...data,
+        pr_image: image
+      }
 
       if (resultSelect.length) {
-        const resultUpdate = await updateProductByPrIdModel(data, prId)
+        const resultUpdate = await updateProductByPrIdModel(setData, prId)
         if (resultUpdate.affectedRows) {
           statusUpdateData(res, resultUpdate)
         } else {
