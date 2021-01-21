@@ -1,11 +1,39 @@
 const { statusRead, statusErrorServer, statusNotFound, statusReadProductByPrId, statusPost, statusFailedAddData, statusMustFillAllFields, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
 
-const { getAllProductModel, getProductByPrIdModel, addProductModel, updateProductByPrIdModel, deleteProductByPrIdModel } = require('../models/product')
+const { getAllProductModel, getProductByPrIdModel, addProductModel, updateProductByPrIdModel, deleteProductByPrIdModel, getSearchProductModel } = require('../models/product')
+
+const isEmpty = require('lodash.isempty')
 
 module.exports = {
   getAllProduct: async (req, res) => {
+    let { search, limit, page } = req.query
+
+    if (!limit) {
+      limit = 500
+    } else {
+      limit = parseInt(limit)
+    }
+
+    if (!page) {
+      page = 1
+    } else {
+      page = parseInt(page)
+    }
+
+    const paginate = {
+      search: search,
+      limit: limit,
+      offset: (page - 1) * limit
+    }
+
     try {
-      const result = await getAllProductModel()
+      let result = await getAllProductModel(paginate)
+
+      if (isEmpty(search)) {
+        result = await getAllProductModel(paginate)
+      } else {
+        result = await getSearchProductModel(paginate)
+      }
 
       if (result.length) {
         statusRead(res, result)
@@ -14,6 +42,7 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
+      console.log(error)
     }
   },
   getProductByPrId: async (req, res) => {
@@ -32,7 +61,7 @@ module.exports = {
   },
   addProduct: async (req, res) => {
     try {
-      const { prName, prDesc, prUnitPrice, prCategory, prDayStartDeliv, prEndDayDeliv, prTimeStartDeliv, prTimeEndDeliv } = req.body
+      const { prName, prDesc, prUnitPrice, prCategory, prDayStartDeliv, prEndDayDeliv, prTimeStartDeliv, prTimeEndDeliv, prSize } = req.body
       const image = req.file === undefined ? '' : req.file.filename
 
       const data = {
@@ -44,7 +73,8 @@ module.exports = {
         pr_day_start_deliv: prDayStartDeliv,
         pr_day_end_deliv: prEndDayDeliv,
         pr_time_start_deliv: prTimeStartDeliv,
-        pr_time_end_deliv: prTimeEndDeliv
+        pr_time_end_deliv: prTimeEndDeliv,
+        pr_size: prSize
       }
 
       if (prName.trim() && prDesc.trim() && prUnitPrice.trim() && prCategory.trim() && prDayStartDeliv.trim() && prEndDayDeliv.trim() && prTimeStartDeliv.trim() && prTimeEndDeliv.trim()) {
