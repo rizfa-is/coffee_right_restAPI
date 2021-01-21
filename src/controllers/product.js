@@ -1,6 +1,23 @@
-const { statusRead, statusErrorServer, statusNotFound, statusReadProductByPrId, statusPost, statusFailedAddData, statusMustFillAllFields, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
+const { 
+  statusRead, 
+  statusErrorServer, 
+  statusNotFound,
+  statusReadProductByPrId, 
+  statusPost, 
+  statusFailedAddData, 
+  statusMustFillAllFields, 
+  statusUpdateData, 
+  statusFailedUpdate, 
+  statusDeleteById, 
+  statusFailedDeleteById 
+} = require('../helpers/status')
 
-const { getAllProductModel, getProductByPrIdModel, addProductModel, updateProductByPrIdModel, deleteProductByPrIdModel } = require('../models/product')
+const { getAllProductModel, 
+  getProductByPrIdModel,
+  addProductModel,
+   updateProductByPrIdModel, 
+   deleteProductByPrIdModel 
+  } = require('../models/product')
 
 module.exports = {
   getAllProduct: async (req, res) => {

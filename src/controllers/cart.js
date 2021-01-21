@@ -60,13 +60,13 @@ module.exports = {
       stat.statusError(res, error)
     }
   },
-  deleteByIdProduct: async (req, res) => {
+  deleteByIdCart: async (req, res) => {
     try {
-      const { prId } = req.params
-      const resultSelect = await getByIdProduct(prId)
+      const { caId } = req.params
+      const resultSelect = await getByIdCart(caId)
 
       if (resultSelect.length) {
-        const resultDelete = await deleteByIdProduct(prId)
+        const resultDelete = await deleteByIdCart(caId)
         if (resultDelete.affectedRows) {
           stat.statusDelete(res)
         } else {
