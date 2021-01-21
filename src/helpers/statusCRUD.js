@@ -1,6 +1,5 @@
 
 module.exports = {
-
   statusRead: (res, result) => {
     res.status(200).send({
       success: true,
