@@ -149,5 +149,12 @@ module.exports = {
       success: false,
       message: 'Access denied!'
     })
+  },
+  statusMustFillAllFields: (res) => {
+    res.status(400).send({
+      success: false,
+      message: 'All fields must be filled!'
+    })
   }
 }
+
