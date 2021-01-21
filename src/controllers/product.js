@@ -1,6 +1,24 @@
-const { statusRead, statusErrorServer, statusNotFound, statusReadProductByPrId, statusPost, statusFailedAddData, statusMustFillAllFields, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
+const {
+  statusRead,
+  statusErrorServer,
+  statusNotFound,
+  statusReadProductByPrId,
+  statusPost,
+  statusFailedAddData,
+  statusMustFillAllFields,
+  statusUpdateData,
+  statusFailedUpdate,
+  statusDeleteById,
+  statusFailedDeleteById
+} = require('../helpers/statusCRUD')
 
-const { getAllProductModel, getProductByPrIdModel, addProductModel, updateProductByPrIdModel, deleteProductByPrIdModel } = require('../models/product')
+const {
+  getAllProductModel,
+  getProductByPrIdModel,
+  addProductModel,
+  updateProductByPrIdModel,
+  deleteProductByPrIdModel
+} = require('../models/product')
 
 module.exports = {
   getAllProduct: async (req, res) => {
@@ -32,7 +50,16 @@ module.exports = {
   },
   addProduct: async (req, res) => {
     try {
-      const { prName, prDesc, prUnitPrice, prCategory, prDayStartDeliv, prEndDayDeliv, prTimeStartDeliv, prTimeEndDeliv } = req.body
+      const {
+        prName,
+        prDesc,
+        prUnitPrice,
+        prCategory,
+        prDayStartDeliv,
+        prEndDayDeliv,
+        prTimeStartDeliv,
+        prTimeEndDeliv
+      } = req.body
       const image = req.file === undefined ? '' : req.file.filename
 
       const data = {
