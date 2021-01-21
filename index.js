@@ -11,10 +11,17 @@ const customerRouter = require('./src/routes/customer')
 const adminRouter = require('./src/routes/admin')
 const productRouter = require('./src/routes/product')
 
+// import morgan dan CORS
+const morgan = require('morgan')
+const cors = require('cors')
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 app.use(cors())
+// app.use('/image', express.static('./uploads'))
+app.use('/images', express.static('./uploads'))
+
 
 // Config CORS
 app.use((req, res, next) => {
@@ -26,7 +33,6 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/images', express.static('./uploads'))
 
 app.use('/product', productRouter)
 app.use('/account', accountRouter)
@@ -38,5 +44,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Listen Coffe Right backend on port ${port}`)
+  console.log(`Listen Coffee Right backend on port ${port}`)
 })
