@@ -5,12 +5,14 @@ const{
     getAllOrderByCustomer,
     addOrder,
     updateOrderByIdOrder,
-    deleteOrderByIdCart
+    deleteOrder,
+    getAllOrder
 } = require('../controllers/order')
 
+router.get('/', getAllOrder)
 router.get('/:csId', getAllOrderByCustomer)
 router.post('/', addOrder)
 router.put('/:orId', updateOrderByIdOrder)
-router.delete('/:caId', deleteOrderByIdCart)
+router.delete('/:orId', deleteOrder)
 
 module.exports = router

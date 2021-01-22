@@ -10,12 +10,14 @@ const accountRouter = require('./src/routes/account')
 const customerRouter = require('./src/routes/customer')
 const adminRouter = require('./src/routes/admin')
 const productRouter = require('./src/routes/product')
+const orderDetailRouter = require('./src/routes/orderDetail')
+const cartRouter = require('./src/routes/cart')
+const orderRouter = require('./src/routes/order')
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 app.use(cors())
-// app.use('/image', express.static('./uploads'))
 app.use('/images', express.static('./uploads'))
 
 // Config CORS
@@ -32,6 +34,9 @@ app.use('/product', productRouter)
 app.use('/account', accountRouter)
 app.use('/customer', customerRouter)
 app.use('/admin', adminRouter)
+app.use('/orderDetail', orderDetailRouter)
+app.use('/cart', cartRouter)
+app.use('/order', orderRouter)
 
 app.get('/', (req, res) => {
   res.send('Welcome to Coffee Right')

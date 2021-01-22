@@ -75,9 +75,9 @@ module.exports = {
     })
   },
 
-  deleteByIdProduct: (prId) => {
+  deleteByIdProduct: (caId) => {
     return new Promise((resolve, reject) => {
-      const query = `DELETE FROM cart WHERE pr_id = ${prId}`
+      const query = `DELETE FROM cart WHERE ca_id = ${caId}`
 
       db.query(query, (err, result, fields) => {
         if (!err) {

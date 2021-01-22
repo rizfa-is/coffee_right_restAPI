@@ -48,33 +48,23 @@ module.exports = {
     }
   },
   addProduct: async (req, res) => {
+    console.log(req.body);
     try {
-      const {
-        prName,
-        prDesc,
-        prUnitPrice,
-        prCategory,
-        prDayStartDeliv,
-        prEndDayDeliv,
-        prTimeStartDeliv,
-        prTimeEndDeliv
-      } = req.body
-      const image = req.file === undefined ? '' : req.file.filename
-
-      const data = {
-        pr_name: prName,
-        pr_desc: prDesc,
-        pr_unit_price: prUnitPrice,
-        pr_image: image,
-        pr_category: prCategory,
-        pr_day_start_deliv: prDayStartDeliv,
-        pr_day_end_deliv: prEndDayDeliv,
-        pr_time_start_deliv: prTimeStartDeliv,
-        pr_time_end_deliv: prTimeEndDeliv
-      }
-
-      if (prName.trim() && prDesc.trim() && prUnitPrice.trim() && prCategory.trim() && prDayStartDeliv.trim() && prEndDayDeliv.trim() && prTimeStartDeliv.trim() && prTimeEndDeliv.trim()) {
-        const result = await addProductModel(data)
+     
+      req.body.pr_image = req.file === undefined ? '' : req.file.filename
+      
+      if ( req.body.pr_name &&
+        req.body.pr_desc &&
+        req.body.pr_unit_price &&
+        req.body.pr_image &&
+        req.body.pr_size &&
+        req.body.pr_category &&
+        req.body.pr_day_start_deliv &&
+        req.body.pr_day_end_deliv &&
+        req.body.pr_time_start_deliv &&
+        req.body.pr_time_end_deliv 
+        ) {
+        const result = await addProductModel(req.body)
 
         if (result.affectedRows) {
           statusPost(res, result)
@@ -86,7 +76,7 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
-      console.log(`${error}`)
+      console.log(error)
     }
   },
   updateProductByPrId: async (req, res) => {

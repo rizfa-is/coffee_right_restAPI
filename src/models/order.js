@@ -36,17 +36,13 @@ module.exports = {
     })
   },
 
-  getAllOrderByIdCostumer: (csId) => {
+  getAllOrderByIdCostumer: (data) => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT *
-          FROM order_tb or
-          JOIN customer cs
-            ON cs.cs_id = or.cs_id
-         WHERE cs.?
+      SELECT * FROM order_tb WHERE cs_id = '${data}'
       `
 
-      dbConnect.query(query, { cs_id: csId }, (error, results, _fields) => {
+      dbConnect.query(query, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
@@ -81,15 +77,17 @@ module.exports = {
       const query = `
         UPDATE order_tb
            SET ?
-         WHERE or_id = ${orId}
+         WHERE or_id = '${orId}'
       `
 
       dbConnect.query(query, data, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
+        console.log(error);
           reject(error)
         }
+
       })
     })
   },
@@ -97,11 +95,12 @@ module.exports = {
   deleteOrder: (orId) => {
     return new Promise((resolve, reject) => {
       const query = `
-        DELETE order_tb
-         WHERE ?
+        DELETE 
+        FROM order_tb
+         WHERE or_id = '${orId}'
       `
 
-      dbConnect.query(query, { or_id : orId }, (error, results, _fields) => {
+      dbConnect.query(query, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {

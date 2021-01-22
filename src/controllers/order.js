@@ -4,6 +4,21 @@ const stat = require('../helpers/status')
 const model = require('../models/order')
 
 module.exports = {
+
+  getAllOrder: async (req, res) => {
+    try {
+      const result = await model.getAllOrder()
+
+      if (result.length) {
+        stat.statusGet(res, result)
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      stat.statusError(res)
+    }
+  },
+
     getAllOrderByCustomer: async (req, res) => {
       try {
         const { csId } = req.params
@@ -22,20 +37,19 @@ module.exports = {
     addOrder: async (req, res) => {
       try {
         if (
-          req.body.or_id.trim() &&
-          req.body.cs_id.trim() &&
-          req.body.or_dt.trim() &&
-          req.body.or_yn.trim() &&
-          req.body.or_st.trim() &&
-          req.body.or_status.trim() &&
-          req.body.or_address.trim() &&
-          req.body.or_method.trim() &&
-          req.body.or_tax.trim() &&
-          req.body.or_total.trim()
+          req.body.cs_id &&
+          req.body.or_dt &&
+          req.body.or_yn &&
+          req.body.or_st &&
+          req.body.or_status &&
+          req.body.or_address &&
+          req.body.or_method &&
+          req.body.or_tax &&
+          req.body.or_total
         ) {
           const result = await model.createOrder(req.body)
           if (result.affectedRows) {
-            stat.statusGet(res, result)
+            stat.statusCreate(res, result)
           } else {
             stat.statusNotFound(res, result)
           }
@@ -50,11 +64,10 @@ module.exports = {
     updateOrderByIdOrder: async (req, res) => {
       try {
         const { orId } = req.params
-        const data = req.body
         const resultSelect = await model.getAllOrder(orId)
-  
+  console.log(req.body);
         if (resultSelect.length) {
-          const resultUpdate = await model.updateByIdOrder(data, orId)
+          const resultUpdate = await model.updateOrder( orId, req.body)
           if (resultUpdate.affectedRows) {
             stat.statusUpdate(res, resultUpdate)
           } else {
@@ -64,11 +77,12 @@ module.exports = {
           stat.statusNotFound(res)
         }
       } catch (error) {
+        console.log(error);
         stat.statusError(res, error)
       }
     },
 
-    deleteOrderByIdCart: async (req, res) => {
+    deleteOrder: async (req, res) => {
       try {
         const { orId } = req.params
         const resultSelect = await model.getAllOrder(orId)

@@ -21,20 +21,21 @@ module.exports = {
   },
 
   addCart: async (req, res) => {
+    console.log(req.body);
     try {
       if (
-        req.body.cs_id.trim() &&
-        req.body.pr_id.trim() &&
-        req.body.ca_size.trim() &&
-        req.body.ca_amount.trim() &&
-        req.body.ca_price.trim()
+        req.body.cs_id &&
+        req.body.pr_id &&
+        req.body.ca_size &&
+        req.body.ca_amount &&
+        req.body.ca_price
       ) {
         const result = await model.createCart(req.body)
         if (result.affectedRows) {
-          stat.statusGet(res, result)
+          stat.statusCreate(res, result)
         } else {
           stat.statusNotFound(res, result)
-        }
+        } 
       } else {
         stat.statusMustFillAllFields(res)
       }
@@ -67,10 +68,10 @@ module.exports = {
   deleteByIdCart: async (req, res) => {
     try {
       const { caId } = req.params
-      const resultSelect = await getByIdCart(caId)
+      const resultSelect = await model.getByIdCart(caId)
 
       if (resultSelect.length) {
-        const resultDelete = await deleteByIdCart(caId)
+        const resultDelete = await model.deleteByIdProduct(caId)
         if (resultDelete.affectedRows) {
           stat.statusDelete(res)
         } else {
