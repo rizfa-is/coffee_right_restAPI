@@ -1,6 +1,7 @@
 const dbConnect = require('../config/db')
 
 module.exports = {
+
   createOrder: (data) => {
     return new Promise((resolve, reject) => {
       const query = `
@@ -35,7 +36,7 @@ module.exports = {
     })
   },
 
-  getOrderByIdCostumer: (csId) => {
+  getAllOrderByIdCostumer: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT *
@@ -55,6 +56,26 @@ module.exports = {
     })
   },
 
+  getOrderByIdOrder: (orId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT *
+          FROM order_tb
+         WHERE or.?
+      `
+
+      dbConnect.query(query, { or_id: orId }, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+
+  
+
   updateOrder: (orId, data) => {
     return new Promise((resolve, reject) => {
       const query = `
@@ -72,6 +93,7 @@ module.exports = {
       })
     })
   },
+
   deleteOrder: (orId) => {
     return new Promise((resolve, reject) => {
       const query = `
@@ -88,4 +110,5 @@ module.exports = {
       })
     })
   }
+  
 }

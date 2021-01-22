@@ -1,6 +1,24 @@
 const db = require('../config/db')
 
 module.exports = {
+
+  createCart: (data) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+      INSERT INTO cart 
+              SET ?
+      `
+
+      db.query(query, data, (err, result, _fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+
   getByIdCart: (caId) => {
     return new Promise((resolve, reject) => {
       const query = `SELECT * FROM cart WHERE ca_id = ${caId}`
@@ -43,20 +61,6 @@ module.exports = {
     })
   },
 
-  addCart: (data) => {
-    return new Promise((resolve, reject) => {
-      const query = 'INSERT INTO cart SET ?'
-
-      db.query(query, data, (err, result, fields) => {
-        if (!err) {
-          resolve(result)
-        } else {
-          reject(new Error(err))
-        }
-      })
-    })
-  },
-
   updateByIdProduct: (data, prId) => {
     return new Promise((resolve, reject) => {
       const query = `UPDATE cart SET ? WHERE pr_id = ${prId}`
@@ -84,4 +88,5 @@ module.exports = {
       })
     })
   }
+  
 }

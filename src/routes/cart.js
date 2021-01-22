@@ -5,12 +5,12 @@ const{
     getAllByCustomer,
     addCart,
     updateByIdProduct,
-    deleteByIdProduct
+    deleteByIdCart
 } = require('../controllers/cart')
 
 router.get('/:csId', getAllByCustomer)
 router.post('/', addCart)
 router.put('/:prId', updateByIdProduct)
-router.delete('/:caId', deleteByIdProduct)
+router.delete('/:caId', deleteByIdCart)
 
 module.exports = router

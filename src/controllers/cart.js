@@ -1,9 +1,10 @@
-const { statusError } = require('../helpers/status')
+require('dotenv').config
+
 const stat = require('../helpers/status')
-const { getByIdProduct, deleteByIdProduct } = require('../models/cart')
 const model = require('../models/cart')
 
 module.exports = {
+
   getAllByCustomer: async (req, res) => {
     try {
       const { csId } = req.params
@@ -18,6 +19,7 @@ module.exports = {
       stat.statusError(res)
     }
   },
+
   addCart: async (req, res) => {
     try {
       if (
@@ -27,7 +29,7 @@ module.exports = {
         req.body.ca_amount.trim() &&
         req.body.ca_price.trim()
       ) {
-        const result = await model.addCart(req.body)
+        const result = await model.createCart(req.body)
         if (result.affectedRows) {
           stat.statusGet(res, result)
         } else {
@@ -40,6 +42,7 @@ module.exports = {
       stat.statusError(res, error)
     }
   },
+
   updateByIdProduct: async (req, res) => {
     try {
       const { prId } = req.params
@@ -60,6 +63,7 @@ module.exports = {
       stat.statusError(res, error)
     }
   },
+
   deleteByIdCart: async (req, res) => {
     try {
       const { caId } = req.params
@@ -79,4 +83,5 @@ module.exports = {
       stat.statusServerError(res, error)
     }
   }
+
 }
