@@ -1,39 +1,28 @@
-const { statusRead, statusErrorServer, statusNotFound, statusReadProductByPrId, statusPost, statusFailedAddData, statusMustFillAllFields, statusUpdateData, statusFailedUpdate, statusDeleteById, statusFailedDeleteById } = require('../helpers/statusCRUD')
+const { 
+  statusRead, 
+  statusErrorServer, 
+  statusNotFound,
+  statusReadProductByPrId, 
+  statusPost, 
+  statusFailedAddData, 
+  statusMustFillAllFields, 
+  statusUpdateData, 
+  statusFailedUpdate, 
+  statusDeleteById, 
+  statusFailedDeleteById 
+} = require('../helpers/status')
 
-const { getAllProductModel, getProductByPrIdModel, addProductModel, updateProductByPrIdModel, deleteProductByPrIdModel, getSearchProductModel } = require('../models/product')
-
-const isEmpty = require('lodash.isempty')
+const { getAllProductModel, 
+  getProductByPrIdModel,
+  addProductModel,
+   updateProductByPrIdModel, 
+   deleteProductByPrIdModel 
+  } = require('../models/product')
 
 module.exports = {
   getAllProduct: async (req, res) => {
-    let { search, limit, page } = req.query
-
-    if (!limit) {
-      limit = 500
-    } else {
-      limit = parseInt(limit)
-    }
-
-    if (!page) {
-      page = 1
-    } else {
-      page = parseInt(page)
-    }
-
-    const paginate = {
-      search: search,
-      limit: limit,
-      offset: (page - 1) * limit
-    }
-
     try {
-      let result = await getAllProductModel(paginate)
-
-      if (isEmpty(search)) {
-        result = await getAllProductModel(paginate)
-      } else {
-        result = await getSearchProductModel(paginate)
-      }
+      const result = await getAllProductModel()
 
       if (result.length) {
         statusRead(res, result)
@@ -42,7 +31,6 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
-      console.log(error)
     }
   },
   getProductByPrId: async (req, res) => {
@@ -60,25 +48,23 @@ module.exports = {
     }
   },
   addProduct: async (req, res) => {
+    console.log(req.body);
     try {
-      const { prName, prDesc, prUnitPrice, prCategory, prDayStartDeliv, prEndDayDeliv, prTimeStartDeliv, prTimeEndDeliv, prSize } = req.body
-      const image = req.file === undefined ? '' : req.file.filename
-
-      const data = {
-        pr_name: prName,
-        pr_desc: prDesc,
-        pr_unit_price: prUnitPrice,
-        pr_image: image,
-        pr_category: prCategory,
-        pr_day_start_deliv: prDayStartDeliv,
-        pr_day_end_deliv: prEndDayDeliv,
-        pr_time_start_deliv: prTimeStartDeliv,
-        pr_time_end_deliv: prTimeEndDeliv,
-        pr_size: prSize
-      }
-
-      if (prName.trim() && prDesc.trim() && prUnitPrice.trim() && prCategory.trim() && prDayStartDeliv.trim() && prEndDayDeliv.trim() && prTimeStartDeliv.trim() && prTimeEndDeliv.trim()) {
-        const result = await addProductModel(data)
+     
+      req.body.pr_image = req.file === undefined ? '' : req.file.filename
+      
+      if ( req.body.pr_name &&
+        req.body.pr_desc &&
+        req.body.pr_unit_price &&
+        req.body.pr_image &&
+        req.body.pr_size &&
+        req.body.pr_category &&
+        req.body.pr_day_start_deliv &&
+        req.body.pr_day_end_deliv &&
+        req.body.pr_time_start_deliv &&
+        req.body.pr_time_end_deliv 
+        ) {
+        const result = await addProductModel(req.body)
 
         if (result.affectedRows) {
           statusPost(res, result)
@@ -90,7 +76,7 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
-      console.log(`${error}`)
+      console.log(error)
     }
   },
   updateProductByPrId: async (req, res) => {
