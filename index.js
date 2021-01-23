@@ -11,8 +11,8 @@ const customerRouter = require('./src/routes/customer')
 const adminRouter = require('./src/routes/admin')
 const productRouter = require('./src/routes/product')
 const orderDetailRouter = require('./src/routes/orderDetail')
-const cartRouter = require('./src/routes/cart')
 const orderRouter = require('./src/routes/order')
+const discountRouter = require('./src/routes/discount')
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -35,8 +35,8 @@ app.use('/account', accountRouter)
 app.use('/customer', customerRouter)
 app.use('/admin', adminRouter)
 app.use('/orderDetail', orderDetailRouter)
-app.use('/cart', cartRouter)
 app.use('/order', orderRouter)
+app.use('/discount', discountRouter)
 
 app.get('/', (req, res) => {
   res.send('Welcome to Coffee Right')
