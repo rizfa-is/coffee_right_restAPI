@@ -22,7 +22,7 @@ module.exports = {
     addDiscount: async (req, res) => {
       try {
         if (
-          req.body.dc_id 
+          req.body.dc_nominal
         ) {
           const result = await model.createDiscount(req.body)
           if (result.affectedRows) {
