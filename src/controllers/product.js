@@ -12,9 +12,10 @@ const {
   statusFailedDeleteById 
 } = require('../helpers/status')
 
-const { getAllProductModel, 
-  getProductByPrIdModel,
-  addProductModel,
+const { 
+   getAllProductModel, 
+   getProductByPrIdModel,
+   addProductModel,
    updateProductByPrIdModel, 
    deleteProductByPrIdModel 
   } = require('../models/product')
