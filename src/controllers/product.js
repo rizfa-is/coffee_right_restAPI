@@ -25,34 +25,8 @@ const isEmpty = require('lodash.isempty')
 
 module.exports = {
   getAllProduct: async (req, res) => {
-    let { search, limit, page } = req.query
-
-    if (!limit) {
-      limit = 500
-    } else {
-      limit = parseInt(limit)
-    }
-
-    if (!page) {
-      page = 1
-    } else {
-      page = parseInt(page)
-    }
-
-    const paginate = {
-      search: search,
-      limit: limit,
-      offset: (page - 1) * limit
-    }
-
     try {
-      let result = await getAllProductModel(paginate)
-
-      if (isEmpty(search)) {
-        result = await getAllProductModel(paginate)
-      } else {
-        result = await getSearchProductModel(paginate)
-      }
+      const result = await getAllProductModel()
 
       if (result.length) {
         statusRead(res, result)
@@ -61,7 +35,6 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
-      console.log(error)
     }
   },
   getProductByPrId: async (req, res) => {
