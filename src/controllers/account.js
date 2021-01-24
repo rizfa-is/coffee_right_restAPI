@@ -142,7 +142,6 @@ module.exports = {
                 JWT.verify(token, process.env.JWT_KEY, (_err, data) => {
                   const result = {
                     ...payload,
-                    exp: data.exp,
                     token: token
                   }
 

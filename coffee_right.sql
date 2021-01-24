@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Jan 2021 pada 04.28
+-- Waktu pembuatan: 24 Jan 2021 pada 03.24
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -43,7 +43,7 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`ac_id`, `ac_email`, `ac_password`, `ac_name`, `ac_phone`, `ac_level`, `ac_created_at`, `ac_updated_at`) VALUES
-(1, 'miqdad@gmail.com', '$2b$10$iA7UEBDHvPpqP.BTA.uK2.OvUNw01jdZ1tX7zxyB/PL8Y9vsEvYGG', 'Miqdad', '081298056468', 0, '2021-01-20 15:15:02', '2021-01-20 15:15:02'),
+(1, 'miqdad@gmail.com', '$2b$10$iGb9.qhA8PSnE9YfazX7duryjOPbBKq5zF4AOFbW8RcgReUu4SLH6', 'Miqdad', '081298056468', 0, '2021-01-20 15:15:02', '2021-01-23 09:28:06'),
 (2, 'ikrima@gmail.com', '$2b$10$PL.tQ6CqkjlNwMCSIDIjF.7oSygVHPk93zNM7L84/5fcqcfzlMKsO', 'Ikrima', '082987651222', 1, '2021-01-20 15:15:15', '2021-01-23 02:38:51');
 
 -- --------------------------------------------------------
@@ -149,7 +149,7 @@ CREATE TABLE `order_tb` (
   `or_dt` enum('DI','DD','PU') DEFAULT NULL,
   `or_yn` enum('Y','N') DEFAULT NULL,
   `or_st` time DEFAULT NULL,
-  `or_status` enum('Unpaid','Paid','Ready','Deliver','Done') DEFAULT NULL,
+  `or_status` enum('Cart','Unpaid','Paid','Ready','Deliver','Done') DEFAULT NULL,
   `or_address` text DEFAULT NULL,
   `or_method` enum('Card','Bank','COD') DEFAULT NULL,
   `or_tax` double DEFAULT NULL,
@@ -257,7 +257,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT untuk tabel `account`
 --
 ALTER TABLE `account`
-  MODIFY `ac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `admin`
