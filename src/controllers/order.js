@@ -62,9 +62,9 @@ module.exports = {
       const {
         prId,
         csId,
-        orStatus,
         orAmount
       } = req.body
+      const orStatus = 'Cart'
       const result = await getProductByPrIdModel(prId)
       const orPrice = result[0].pr_unit_price * orAmount
       const orSize = result[0].pr_size
@@ -81,7 +81,6 @@ module.exports = {
         prId.trim() &&
         csId.trim() &&
         orStatus.trim() &&
-        orSize.trim() &&
         orAmount.trim()
       ) {
         const result = await model.createOrder(data)

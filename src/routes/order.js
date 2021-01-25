@@ -14,7 +14,7 @@ router.get('/', getAllOrder)
 router.get('/:csId', getAllOrderByCustomer)
 router.get('/statusCart/:csId', getAllOrderByCustomerNStatusCart)
 
-router.post('/create', addOrder)
+router.post('/addOrder', addOrder)
 router.put('/:orId', updateOrderByIdOrder)
 router.delete('/:orId', deleteOrder)
 

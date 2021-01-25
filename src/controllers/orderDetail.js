@@ -6,7 +6,7 @@ const {
     getProductByPrIdModel
 } = require('../models/product')
 const {
-    getAllOrderByIdCustomer
+    getAllOrderByIdCustomerNStatusCart
 } = require('../models/order')
 
 module.exports = {
@@ -27,15 +27,16 @@ module.exports = {
             stat.statusError(res)
         }
     },
-    getAllODByIdOrder: async (req, res) => {
+    getAllODById: async (req, res) => {
         try {
             const {
-                orId
+                odId
             } = req.params
-            const result = await model.getODByIdOrder(orId)
+
+            const result = await model.getOrderDetailByOdId(odId)
 
             if (result.length) {
-                stat.statusGet(res, result, orId)
+                stat.statusGet(res, result)
             } else {
                 stat.statusNotFound(res)
             }
@@ -43,51 +44,17 @@ module.exports = {
             stat.statusError(res)
         }
     },
-    addOrderDetail: async (req, res) => {
-        try {
-            const {
-                orId,
-                csId,
-                prId,
-                odSize,
-                odAmount
-            } = req.body
-
-            const result = await getProductByPrIdModel(prId)
-            const OdPrice = result[0].pr_unit_price * odAmount
-
-            const data = {
-                or_id: orId,
-                cs_id: csId,
-                pr_id: prId,
-                od_size: odSize,
-                od_amount: odAmount,
-                od_price: OdPrice
-            }
-
-            const resultAdd = await model.addOrderDetailModel(data)
-            if (resultAdd.affectedRows) {
-                stat.statusCreate(res)
-            } else {
-                stat.statusCreateFail(res)
-            }
-
-        } catch (error) {
-            console.log(error)
-            statusErrorServer(res, error)
-        }
-    },
     createOrderDetail: async (req, res) => {
         try {
             const {
                 csId,
                 delivId,
-                paymentId,
-                odStatus,
-                odAddress
+                odPaymentMethod
             } = req.body
 
-            const listOrderCs = await getAllOrderByIdCustomer(csId)
+            const odStatus = 'Unpaid'
+
+            const listOrderCs = await getAllOrderByIdCustomerNStatusCart(csId)
             let subTotal = 0
             for (let i = 0; i < listOrderCs.length; i++) {
                 subTotal += listOrderCs[i].or_price
@@ -98,19 +65,22 @@ module.exports = {
             const data = {
                 cs_id: csId,
                 dv_id: delivId,
-                py_id: paymentId,
                 od_totalPrice: odTotalPrice,
                 od_status: odStatus,
-                od_address: odAddress,
+                od_payment_method: odPaymentMethod,
                 od_tax: odTax
             }
 
             const result = await model.createOrderDetailModel(data)
 
-            if (result.affectedRows) {
-                stat.statusCreate(res)
+            if (csId.trim() && delivId.trim() && odPaymentMethod.trim()) {
+                if (result.affectedRows) {
+                    stat.statusCreate(res)
+                } else {
+                    stat.statusCreateFail(res)
+                }
             } else {
-                stat.statusCreateFail(res)
+                stat.statusMustFillAllFields(res)
             }
         } catch (error) {
             console.log(error)

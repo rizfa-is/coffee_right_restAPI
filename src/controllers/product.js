@@ -14,6 +14,7 @@ const {
 
 const {
   getAllProductModel,
+  getAllProductGroupByNameModel,
   getProductByPrIdModel,
   addProductModel,
   updateProductByPrIdModel,
@@ -69,6 +70,51 @@ module.exports = {
     }
   },
 
+  getAllProductGroupByName: async (req, res) => {
+    let {
+      search,
+      limit,
+      page
+    } = req.query
+
+    if (!limit) {
+      limit = 500
+    } else {
+      limit = parseInt(limit)
+    }
+
+    if (!page) {
+      page = 1
+    } else {
+      page = parseInt(page)
+    }
+
+    const paginate = {
+      search: search,
+      limit: limit,
+      offset: (page - 1) * limit
+    }
+
+    try {
+      let result = await getAllProductGroupByNameModel(paginate)
+
+      if (isEmpty(search)) {
+        result = await getAllProductGroupByNameModel(paginate)
+      } else {
+        result = await getSearchProductModel(paginate)
+      }
+
+      if (result.length) {
+        statusRead(res, result)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
+      statusErrorServer(res, error)
+      console.log(error)
+    }
+  },
+
   getProductByPrId: async (req, res) => {
     try {
       const {
@@ -86,17 +132,17 @@ module.exports = {
     }
   },
   addProduct: async (req, res) => {
-    console.log(req.body);
     try {
-
       req.body.pr_image = req.file === undefined ? '' : req.file.filename
 
-      if (req.body.dc_id &&
+      if (
+        req.body.dc_id &&
         req.body.pr_name &&
+        req.body.pr_size &&
         req.body.pr_desc &&
         req.body.pr_unit_price &&
         req.body.pr_image &&
-        req.body.pr_size &&
+        req.body.pr_favorite &&
         req.body.pr_category
       ) {
         const result = await addProductModel(req.body)
