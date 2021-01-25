@@ -1,31 +1,35 @@
-const { 
-  statusRead, 
-  statusErrorServer, 
+const {
+  statusRead,
+  statusErrorServer,
   statusNotFound,
-  statusReadProductByPrId, 
-  statusPost, 
-  statusFailedAddData, 
-  statusMustFillAllFields, 
-  statusUpdateData, 
-  statusFailedUpdate, 
-  statusDeleteById, 
-  statusFailedDeleteById 
+  statusReadProductByPrId,
+  statusPost,
+  statusFailedAddData,
+  statusMustFillAllFields,
+  statusUpdateData,
+  statusFailedUpdate,
+  statusDeleteById,
+  statusFailedDeleteById
 } = require('../helpers/status')
 
-const { 
-   getAllProductModel, 
-   getProductByPrIdModel,
-   addProductModel,
-   updateProductByPrIdModel, 
-   deleteProductByPrIdModel,
-   getSearchProductModel 
-  } = require('../models/product')
+const {
+  getAllProductModel,
+  getProductByPrIdModel,
+  addProductModel,
+  updateProductByPrIdModel,
+  deleteProductByPrIdModel,
+  getSearchProductModel
+} = require('../models/product')
 
 const isEmpty = require('lodash.isempty')
 
 module.exports = {
   getAllProduct: async (req, res) => {
-    let { search, limit, page } = req.query
+    let {
+      search,
+      limit,
+      page
+    } = req.query
 
     if (!limit) {
       limit = 500
@@ -64,10 +68,12 @@ module.exports = {
       console.log(error)
     }
   },
-  
+
   getProductByPrId: async (req, res) => {
     try {
-      const { prId } = req.params
+      const {
+        prId
+      } = req.params
       const result = await getProductByPrIdModel(prId)
 
       if (result.length) {
@@ -82,16 +88,17 @@ module.exports = {
   addProduct: async (req, res) => {
     console.log(req.body);
     try {
-     
+
       req.body.pr_image = req.file === undefined ? '' : req.file.filename
-      
-      if ( req.body.dc_id &&
+
+      if (req.body.dc_id &&
         req.body.pr_name &&
         req.body.pr_desc &&
         req.body.pr_unit_price &&
         req.body.pr_image &&
+        req.body.pr_size &&
         req.body.pr_category
-        ) {
+      ) {
         const result = await addProductModel(req.body)
 
         if (result.affectedRows) {
@@ -109,7 +116,9 @@ module.exports = {
   },
   updateProductByPrId: async (req, res) => {
     try {
-      const { prId } = req.params
+      const {
+        prId
+      } = req.params
       const resultSelect = await getProductByPrIdModel(prId)
       const image = req.file === undefined ? resultSelect[0].pr_image : req.file.filename
 
@@ -135,7 +144,9 @@ module.exports = {
   },
   deleteProductByPrId: async (req, res) => {
     try {
-      const { prId } = req.params
+      const {
+        prId
+      } = req.params
       const resultSelect = await getProductByPrIdModel(prId)
 
       if (resultSelect.length) {
