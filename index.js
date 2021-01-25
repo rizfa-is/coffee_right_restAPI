@@ -13,11 +13,8 @@ const productRouter = require('./src/routes/product')
 const orderDetailRouter = require('./src/routes/orderDetail')
 const orderRouter = require('./src/routes/order')
 const discountRouter = require('./src/routes/discount')
-<<<<<<< HEAD
-=======
 const paymentRouter = require('./src/routes/payment')
 const deliveryRouter = require('./src/routes/delivery')
->>>>>>> feature-fixdb
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -42,11 +39,8 @@ app.use('/admin', adminRouter)
 app.use('/orderDetail', orderDetailRouter)
 app.use('/order', orderRouter)
 app.use('/discount', discountRouter)
-<<<<<<< HEAD
-=======
 app.use('/payment', paymentRouter)
 app.use('/delivery', deliveryRouter)
->>>>>>> feature-fixdb
 
 app.get('/', (req, res) => {
   res.send('Welcome to Coffee Right')
