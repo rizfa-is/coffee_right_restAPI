@@ -85,8 +85,10 @@ module.exports = {
      
       req.body.pr_image = req.file === undefined ? '' : req.file.filename
       
-      if ( req.body.dc_id &&
+      if ( 
+        req.body.dc_id &&
         req.body.pr_name &&
+        req.body.pr_size &&
         req.body.pr_desc &&
         req.body.pr_unit_price &&
         req.body.pr_image &&

@@ -36,15 +36,12 @@ module.exports = {
   addOrder: async (req, res) => {
     try {
       if (
-        req.body.cs_id &&
-          req.body.or_dt &&
-          req.body.or_yn &&
-          req.body.or_st &&
+          req.body.pr_id &&
+          req.body.cs_id &&
           req.body.or_status &&
-          req.body.or_address &&
-          req.body.or_method &&
-          req.body.or_tax &&
-          req.body.or_total
+          req.body.or_size &&
+          req.body.or_amount &&
+          req.body.or_price
       ) {
         const result = await model.createOrder(req.body)
         if (result.affectedRows) {
