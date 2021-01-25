@@ -14,7 +14,7 @@ const uploadImage = require('../middleware/multer')
 router.get('/getAllProduct', getAllProduct)
 router.get('/getProductByPrId/:prId', getProductByPrId)
 router.post('/addProduct',uploadImage, addProduct)
-router.put('/updateProductByPrId/:prId', updateProductByPrId)
+router.put('/updateProductByPrId/:prId',uploadImage, updateProductByPrId)
 router.delete('/deleteProduct/:prId', deleteProductByPrId)
 
 module.exports = router

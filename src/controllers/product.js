@@ -120,7 +120,7 @@ module.exports = {
         ...data,
         pr_image: image
       }
-
+      console.log(setData);
       if (resultSelect.length) {
         const resultUpdate = await updateProductByPrIdModel(setData, prId)
         if (resultUpdate.affectedRows) {
