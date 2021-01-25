@@ -11,7 +11,7 @@ const{
 
 router.get('/', getAllOrder)
 router.get('/:csId', getAllOrderByCustomer)
-router.post('/', addOrder)
+router.post('/create', addOrder)
 router.put('/:orId', updateOrderByIdOrder)
 router.delete('/:orId', deleteOrder)
 

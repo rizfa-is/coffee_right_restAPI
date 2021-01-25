@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 // require('dotenv').config
 
+=======
+>>>>>>> feature-fixdb
 const stat = require('../helpers/status')
 const model = require('../models/order')
 const { getODByIdOrder } = require('../models/orderDetail')
@@ -21,6 +24,7 @@ module.exports = {
   },
 
   getAllOrderByCustomer: async (req, res) => {
+<<<<<<< HEAD
     try {
       const { csId } = req.params
       const result = await model.getAllOrderByIdCostumer(csId)
@@ -29,6 +33,19 @@ module.exports = {
         stat.statusGet(res, result, csId)
       } else {
         stat.statusNotFound(res)
+=======
+      try {
+        const { csId } = req.params
+        const result = await model.getAllOrderByIdCostumer(csId)
+  
+        if (result.length) {
+          stat.statusGet(res, result, csId)
+        } else {
+          stat.statusNotFound(res)
+        }
+      } catch (error) {
+        stat.statusError(res)
+>>>>>>> feature-fixdb
       }
     } catch (error) {
       stat.statusError(res)
@@ -36,6 +53,7 @@ module.exports = {
   },
 
   addOrder: async (req, res) => {
+<<<<<<< HEAD
     try {
       if (
         req.body.cs_id &&
@@ -51,6 +69,23 @@ module.exports = {
         const result = await model.createOrder(req.body)
         if (result.affectedRows) {
           stat.statusCreate(res, result)
+=======
+      try {
+        if (
+          req.body.pr_id &&
+          req.body.cs_id &&
+          req.body.or_status &&
+          req.body.or_size &&
+          req.body.or_amount &&
+          req.body.or_price 
+        ) {
+          const result = await model.createOrder(req.body)
+          if (result.affectedRows) {
+            stat.statusCreate(res, result)
+          } else {
+            stat.statusNotFound(res, result)
+          }
+>>>>>>> feature-fixdb
         } else {
           stat.statusNotFound(res, result)
         }
@@ -63,6 +98,7 @@ module.exports = {
   },
 
   updateOrderByIdOrder: async (req, res) => {
+<<<<<<< HEAD
     try {
       const { orId } = req.params
       const resultSelect = await model.getOrderByIdOrder(orId)
@@ -94,6 +130,19 @@ module.exports = {
         const resultUpdate = await model.updateOrder(orId, data)
         if (resultUpdate.affectedRows) {
           stat.statusUpdate(res, resultUpdate)
+=======
+      try {
+        const { orId } = req.params
+        const resultSelect = await model.getAllOrder(orId)
+  
+        if (resultSelect.length) {
+          const resultUpdate = await model.updateOrder( orId, req.body)
+          if (resultUpdate.affectedRows) {
+            stat.statusUpdate(res, resultUpdate)
+          } else {
+            stat.statusUpdateFail(res)
+          }
+>>>>>>> feature-fixdb
         } else {
           stat.statusUpdateFail(res)
         }
@@ -111,10 +160,25 @@ module.exports = {
       const { orId } = req.params
       const resultSelect = await model.getAllOrder(orId)
 
+<<<<<<< HEAD
       if (resultSelect.length) {
         const resultDelete = await model.deleteOrder(orId)
         if (resultDelete.affectedRows) {
           stat.statusDelete(res)
+=======
+  deleteOrder: async (req, res) => {
+      try {
+        const { orId } = req.params
+        const resultSelect = await model.getAllOrder(orId)
+  
+        if (resultSelect.length) {
+          const resultDelete = await model.deleteOrder(orId)
+          if (resultDelete.affectedRows) {
+            stat.statusDelete(res)
+          } else {
+            stat.statusDeleteFail(res)
+          }
+>>>>>>> feature-fixdb
         } else {
           stat.statusDeleteFail(res)
         }

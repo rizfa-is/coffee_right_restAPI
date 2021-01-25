@@ -85,16 +85,12 @@ module.exports = {
      
       req.body.pr_image = req.file === undefined ? '' : req.file.filename
       
-      if ( req.body.pr_name &&
+      if ( req.body.dc_id &&
+        req.body.pr_name &&
         req.body.pr_desc &&
         req.body.pr_unit_price &&
         req.body.pr_image &&
-        req.body.pr_size &&
-        req.body.pr_category &&
-        req.body.pr_day_start_deliv &&
-        req.body.pr_day_end_deliv &&
-        req.body.pr_time_start_deliv &&
-        req.body.pr_time_end_deliv 
+        req.body.pr_category
         ) {
         const result = await addProductModel(req.body)
 
