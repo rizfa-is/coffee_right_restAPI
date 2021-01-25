@@ -15,12 +15,12 @@ const {
   hashPassword
 } = require('../middleware/auth')
 
-router.post('/', hashPassword, createAccount)
-router.put('/:acId', updateAccount)
-router.put('/password/:acId', hashPassword, updateAccountPass)
+router.post('/register', hashPassword, createAccount)
+router.put('/update/:acId', updateAccount)
+router.put('/update/password/:acId', hashPassword, updateAccountPass)
 router.post('/login', loginAccount)
-router.post('/check', checkEmail)
+router.post('/email/check', checkEmail)
 router.get('/detail/:acId', detailAccount)
-router.delete('/:acId', deleteAccount)
+router.delete('/delete/:acId', deleteAccount)
 
 module.exports = router

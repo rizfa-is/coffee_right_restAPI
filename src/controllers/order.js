@@ -1,7 +1,8 @@
-require('dotenv').config
+// require('dotenv').config
 
 const stat = require('../helpers/status')
 const model = require('../models/order')
+const { getODByIdOrder } = require('../models/orderDetail')
 
 module.exports = {
 
@@ -19,25 +20,25 @@ module.exports = {
     }
   },
 
-    getAllOrderByCustomer: async (req, res) => {
-      try {
-        const { csId } = req.params
-        const result = await model.getAllOrderByIdCostumer(csId)
-  
-        if (result.length) {
-          stat.statusGet(res, result, csId)
-        } else {
-          stat.statusNotFound(res)
-        }
-      } catch (error) {
-        stat.statusError(res)
-      }
-    },
+  getAllOrderByCustomer: async (req, res) => {
+    try {
+      const { csId } = req.params
+      const result = await model.getAllOrderByIdCostumer(csId)
 
-    addOrder: async (req, res) => {
-      try {
-        if (
-          req.body.cs_id &&
+      if (result.length) {
+        stat.statusGet(res, result, csId)
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      stat.statusError(res)
+    }
+  },
+
+  addOrder: async (req, res) => {
+    try {
+      if (
+        req.body.cs_id &&
           req.body.or_dt &&
           req.body.or_yn &&
           req.body.or_st &&
@@ -46,60 +47,83 @@ module.exports = {
           req.body.or_method &&
           req.body.or_tax &&
           req.body.or_total
-        ) {
-          const result = await model.createOrder(req.body)
-          if (result.affectedRows) {
-            stat.statusCreate(res, result)
-          } else {
-            stat.statusNotFound(res, result)
-          }
+      ) {
+        const result = await model.createOrder(req.body)
+        if (result.affectedRows) {
+          stat.statusCreate(res, result)
         } else {
-          stat.statusMustFillAllFields(res)
+          stat.statusNotFound(res, result)
         }
-      } catch (error) {
-        stat.statusError(res, error)
+      } else {
+        stat.statusMustFillAllFields(res)
       }
-    },
-
-    updateOrderByIdOrder: async (req, res) => {
-      try {
-        const { orId } = req.params
-        const resultSelect = await model.getAllOrder(orId)
-  console.log(req.body);
-        if (resultSelect.length) {
-          const resultUpdate = await model.updateOrder( orId, req.body)
-          if (resultUpdate.affectedRows) {
-            stat.statusUpdate(res, resultUpdate)
-          } else {
-            stat.statusUpdateFail(res)
-          }
-        } else {
-          stat.statusNotFound(res)
-        }
-      } catch (error) {
-        console.log(error);
-        stat.statusError(res, error)
-      }
-    },
-
-    deleteOrder: async (req, res) => {
-      try {
-        const { orId } = req.params
-        const resultSelect = await model.getAllOrder(orId)
-  
-        if (resultSelect.length) {
-          const resultDelete = await model.deleteOrder(orId)
-          if (resultDelete.affectedRows) {
-            stat.statusDelete(res)
-          } else {
-            stat.statusDeleteFail(res)
-          }
-        } else {
-          stat.statusNotFound(res)
-        }
-      } catch (error) {
-        stat.statusServerError(res, error)
-      }
+    } catch (error) {
+      stat.statusError(res, error)
     }
-    
+  },
+
+  updateOrderByIdOrder: async (req, res) => {
+    try {
+      const { orId } = req.params
+      const resultSelect = await model.getOrderByIdOrder(orId)
+
+      const { orDt, orYn, orSt, orStatus, orAddress, orMethod, csId} = req.body
+      
+      const listOrderDetailCs = await getODByIdOrder(orId)
+      let subTotal = 0
+      for(let i = 0; i < listOrderDetailCs.length; i++) {
+        subTotal += listOrderDetailCs[i].od_price
+      }
+
+      const orTax = subTotal * 0.1
+      const orTotal = subTotal + orTax
+      
+      const data = {
+        or_dt: orDt, 
+        or_yn: orYn, 
+        or_st: orSt, 
+        or_status: orStatus, 
+        or_address: orAddress, 
+        or_method: orMethod, 
+        or_tax: orTax, 
+        or_total: orTotal,
+        cs_id: csId
+      }
+
+      if (resultSelect.length) {
+        const resultUpdate = await model.updateOrder(orId, data)
+        if (resultUpdate.affectedRows) {
+          stat.statusUpdate(res, resultUpdate)
+        } else {
+          stat.statusUpdateFail(res)
+        }
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      console.log(error)
+      stat.statusError(res, error)
+    }
+  },
+
+  deleteOrder: async (req, res) => {
+    try {
+      const { orId } = req.params
+      const resultSelect = await model.getAllOrder(orId)
+
+      if (resultSelect.length) {
+        const resultDelete = await model.deleteOrder(orId)
+        if (resultDelete.affectedRows) {
+          stat.statusDelete(res)
+        } else {
+          stat.statusDeleteFail(res)
+        }
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      stat.statusServerError(res, error)
+    }
   }
+
+}
