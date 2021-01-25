@@ -57,7 +57,7 @@ module.exports = {
       const query = `
         SELECT *
           FROM order_tb
-        WHERE or_id = ${orId}
+        WHERE or_id = '${orId}'
       `
 
       dbConnect.query(query, (error, results, _fields) => {

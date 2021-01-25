@@ -5,7 +5,7 @@ module.exports = {
   getAllOrderDetailByCsIdModel: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
-      SELECT * FROM order_detail WHERE cs_id = ${csId}
+      SELECT * FROM order_detail WHERE cs_id = '${csId}'
       `
 
       dbConnect.query(query, (error, results, _fields) => {
@@ -75,7 +75,7 @@ module.exports = {
   },
   updateOrderDetailModel: (data, odId) => {
     return new Promise((resolve, reject) => {
-      const query = `UPDATE order_detail SET ? WHERE od_id = ${odId}`
+      const query = `UPDATE order_detail SET ? WHERE od_id = '${odId}'`
 
       dbConnect.query(query, data, (err, result, fields) => {
         if (!err) {
