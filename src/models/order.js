@@ -36,10 +36,26 @@ module.exports = {
     })
   },
 
-  getAllOrderByIdCustomer: (data) => {
+  getAllOrderByIdCustomer: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
-      SELECT * FROM order_tb WHERE cs_id = '${data}'
+      SELECT * FROM order_tb WHERE cs_id = '${csId}'
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+
+  getAllOrderByIdCustomerNStatusCart: (csId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+      SELECT * FROM order_tb WHERE cs_id = '${csId}' && or_status = 'Cart'
       `
 
       dbConnect.query(query, (error, results, _fields) => {
