@@ -1,7 +1,7 @@
 const stat = require('../helpers/status')
 const model = require('../models/order')
 const { getODByIdOrder } = require('../models/orderDetail')
-
+const { getProductByPrIdModel } = require('../models/product')
 module.exports = {
 
   getAllOrder: async (req, res) => {
@@ -21,7 +21,7 @@ module.exports = {
   getAllOrderByCustomer: async (req, res) => {
     try {
       const { csId } = req.params
-      const result = await model.getAllOrderByIdCostumer(csId)
+      const result = await model.getAllOrderByIdCustomer(csId)
 
       if (result.length) {
         stat.statusGet(res, result, csId)
@@ -35,15 +35,32 @@ module.exports = {
 
   addOrder: async (req, res) => {
     try {
+      const {
+        prId,
+        csId,
+        orStatus,
+        orAmount
+      } = req.body
+      const result = await getProductByPrIdModel(prId)
+      const orPrice = result[0].pr_unit_price * orAmount
+      const orSize = result[0].pr_size
+      const data = {
+        pr_id: prId,
+        cs_id: csId,
+        or_status: orStatus,
+        or_size: orSize,
+        or_amount: orAmount,
+        or_price: orPrice
+      }
+
       if (
-          req.body.pr_id &&
-          req.body.cs_id &&
-          req.body.or_status &&
-          req.body.or_size &&
-          req.body.or_amount &&
-          req.body.or_price
+        prId.trim() &&
+        csId.trim() &&
+        orStatus.trim() &&
+        orSize.trim() &&
+        orAmount.trim()
       ) {
-        const result = await model.createOrder(req.body)
+        const result = await model.createOrder(data)
         if (result.affectedRows) {
           stat.statusCreate(res, result)
         } else {
