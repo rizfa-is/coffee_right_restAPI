@@ -1,16 +1,16 @@
 const express = require('express')
 const router = express.Router()
 
-const{
+const {
     getAllDelivery,
     createDelivery,
     updateDelivery,
-    deleteDelivery
+    deleteDeliveryByCsId
 } = require('../controllers/delivery')
 
 router.get('/', getAllDelivery)
 router.post('/create', createDelivery)
 router.put('/:dvId', updateDelivery)
-router.delete('/:dvId', deleteDelivery)
+router.delete('/deleteDeliveryByCsId/:csId', deleteDeliveryByCsId)
 
 module.exports = router

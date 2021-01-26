@@ -4,6 +4,21 @@ module.exports = {
   getAllProductModel: (paginate) => {
     return new Promise((resolve, reject) => {
       const query = `SELECT * FROM product 
+      LIMIT ${paginate.limit}
+      OFFSET ${paginate.offset}`
+
+      db.query(query, (err, result, fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+  getAllProductGroupByNameModel: (paginate) => {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM product 
       GROUP BY pr_name
       LIMIT ${paginate.limit}
       OFFSET ${paginate.offset}`

@@ -2,18 +2,18 @@ const express = require('express')
 const router = express.Router()
 
 const {
-    getAllODByIdOrder,
-    addOrderDetail,
+    getAllOrderDetailByCsId,
+    getAllODById,
     createOrderDetail,
     updateOrderDetail,
-    getAllOrderDetailByCsId
+    updateDvIdByOdId
 } = require('../controllers/orderDetail')
 
-router.get('/:orId', getAllODByIdOrder)
-router.get('/getAllByCsId', getAllOrderDetailByCsId)
+router.get('/getAllByCsId/:csId', getAllOrderDetailByCsId)
+router.get('/getAllById/:odId', getAllODById)
 
-router.post('/add', addOrderDetail)
 router.post('/create', createOrderDetail)
 router.put('/update/:odId', updateOrderDetail)
+router.put('/updateDvIdByOdId/:csId', updateDvIdByOdId)
 
 module.exports = router
