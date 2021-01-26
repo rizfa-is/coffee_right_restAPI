@@ -6,6 +6,9 @@ const {
 const {
   getProductByPrIdModel
 } = require('../models/product')
+const {
+  getDiscountByDcId
+} = require('../models/discount')
 
 module.exports = {
 
@@ -66,13 +69,19 @@ module.exports = {
       const orAmount = 1
       const orStatus = 'Cart'
       const result = await getProductByPrIdModel(prId)
-      const orPrice = result[0].pr_unit_price * orAmount
-      const orSize = result[0].pr_size
+      const dcId = result[0].dc_id
+      console.log('dcId:', dcId)
+
+      const resultDiscount = await getDiscountByDcId(dcId)
+      const discount = result[0].pr_unit_price * resultDiscount[0].dc_nominal
+      console.log('discount: ', discount)
+
+      const priceProductWithDiscount = result[0].pr_unit_price - discount
+      const orPrice = priceProductWithDiscount * orAmount
       const data = {
         pr_id: prId,
         cs_id: csId,
         or_status: orStatus,
-        or_size: orSize,
         or_amount: orAmount,
         or_price: orPrice
       }
@@ -107,8 +116,16 @@ module.exports = {
         orAmount,
       } = req.body
 
-      const unitPrice = await getProductByPrIdModel(prId)
-      const orPrice = orAmount * unitPrice[0].pr_unit_price
+      const result = await getProductByPrIdModel(prId)
+      const dcId = result[0].dc_id
+      console.log(dcId)
+
+      const resultDiscount = await getDiscountByDcId(dcId)
+      const discount = result[0].pr_unit_price * resultDiscount[0].dc_nominal
+      console.log(discount)
+
+      const priceProductWithDiscount = result[0].pr_unit_price - discount
+      const orPrice = priceProductWithDiscount * orAmount
 
       const data = {
         or_amount: orAmount,
@@ -233,6 +250,7 @@ module.exports = {
       }
     } catch (error) {
       stat.statusError(res)
+      console.log(error)
     }
   },
 

@@ -21,7 +21,7 @@ router.get('/historyOrderByOdId/:odId', historyOrderByOdId)
 router.post('/addOrder', addOrder)
 
 router.put('/updateOrder/:orId', updateOrderByIdOrder)
-router.put('/updateOdId/:csId', updateOdIdByCsIdNStatus)
+router.put('/updateOdIdByCsId/:csId', updateOdIdByCsIdNStatus)
 router.put('/updateOrderStatusByOdId/:odId', updateOrderStatusByOdId)
 
 router.delete('/deleteOrder/:orId', deleteOrder)

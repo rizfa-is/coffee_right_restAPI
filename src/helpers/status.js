@@ -137,10 +137,10 @@ module.exports = {
     })
   },
 
-  statusError: (res, result) => {
+  statusError: (res) => {
     res.status(404).send({
       success: false,
-      message: result.message
+      message: 'Internal Server Error!'
     })
   },
 
@@ -223,4 +223,3 @@ module.exports = {
     })
   }
 }
-

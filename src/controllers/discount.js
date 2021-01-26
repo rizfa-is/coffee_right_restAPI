@@ -19,63 +19,67 @@ module.exports = {
     }
   },
 
-    addDiscount: async (req, res) => {
-      try {
-        if (
-          req.body.dc_nominal
-        ) {
-          const result = await model.createDiscount(req.body)
-          if (result.affectedRows) {
-            stat.statusCreate(res, result)
-          } else {
-            stat.statusNotFound(res, result)
-          }
+  addDiscount: async (req, res) => {
+    try {
+      if (
+        req.body.dc_nominal
+      ) {
+        const result = await model.createDiscount(req.body)
+        if (result.affectedRows) {
+          stat.statusCreate(res, result)
         } else {
-          stat.statusMustFillAllFields(res)
+          stat.statusNotFound(res, result)
         }
-      } catch (error) {
-        stat.statusError(res, error)
+      } else {
+        stat.statusMustFillAllFields(res)
       }
-    },
-
-    updateDCById: async (req, res) => {
-      try {
-        const { dcId } = req.params
-        const resultSelect = await model.getAllDiscount(dcId)
-        if (resultSelect.length) {
-          const resultUpdate = await model.updateDiscount( dcId, req.body)
-          if (resultUpdate.affectedRows) {
-            stat.statusUpdate(res, resultUpdate)
-          } else {
-            stat.statusUpdateFail(res)
-          }
-        } else {
-          stat.statusNotFound(res)
-        }
-      } catch (error) {
-        console.log(error);
-        stat.statusError(res, error)
-      }
-    },
-
-    deleteDCById: async (req, res) => {
-      try {
-        const { dcId } = req.params
-        const resultSelect = await model.getAllDiscount(dcId)
-  
-        if (resultSelect.length) {
-          const resultDelete = await model.deleteDiscount(dcId)
-          if (resultDelete.affectedRows) {
-            stat.statusDelete(res)
-          } else {
-            stat.statusDeleteFail(res)
-          }
-        } else {
-          stat.statusNotFound(res)
-        }
-      } catch (error) {
-        stat.statusServerError(res, error)
-      }
+    } catch (error) {
+      stat.statusError(res, error)
     }
-    
+  },
+
+  updateDCById: async (req, res) => {
+    try {
+      const {
+        dcId
+      } = req.params
+      const resultSelect = await model.getAllDiscount(dcId)
+      if (resultSelect.length) {
+        const resultUpdate = await model.updateDiscount(dcId, req.body)
+        if (resultUpdate.affectedRows) {
+          stat.statusUpdate(res, resultUpdate)
+        } else {
+          stat.statusUpdateFail(res)
+        }
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      console.log(error);
+      stat.statusError(res, error)
+    }
+  },
+
+  deleteDCById: async (req, res) => {
+    try {
+      const {
+        dcId
+      } = req.params
+      const resultSelect = await model.getAllDiscount(dcId)
+
+      if (resultSelect.length) {
+        const resultDelete = await model.deleteDiscount(dcId)
+        if (resultDelete.affectedRows) {
+          stat.statusDelete(res)
+        } else {
+          stat.statusDeleteFail(res)
+        }
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      stat.statusServerError(res, error)
+    }
   }
+
+}
