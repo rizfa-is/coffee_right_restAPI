@@ -43,6 +43,8 @@ module.exports = {
         SELECT cs.cs_id,
                ac.ac_id,
                ac.ac_name,
+               cs.cs_gender,
+               cs.cs_birthday,
                cs.cs_address,
                cs.cs_image
           FROM customer cs
@@ -67,6 +69,8 @@ module.exports = {
         SELECT cs.cs_id,
                ac.ac_id,
                ac.ac_name,
+               cs.cs_gender,
+               cs.cs_birthday,
                cs.cs_address,
                cs.cs_image
           FROM customer cs
@@ -90,7 +94,7 @@ module.exports = {
       const query = `
         UPDATE customer
            SET ?
-         WHERE cs_id = ${csId}
+         WHERE cs_id = '${csId}'
       `
 
       dbConnect.query(query, data, (error, results, _fields) => {
