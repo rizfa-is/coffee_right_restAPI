@@ -6,8 +6,12 @@ const {
     getProductByPrIdModel
 } = require('../models/product')
 const {
-    getAllOrderByIdCustomerNStatusCart
+    getAllOrderByIdCustomerNStatusCart,
+    getLastOdIdByCsId
 } = require('../models/order')
+const {
+    getLastDvIdByCsId
+} = require('../models/delivery')
 
 module.exports = {
 
@@ -48,11 +52,14 @@ module.exports = {
         try {
             const {
                 csId,
-                delivId,
-                odPaymentMethod
+                odPaymentMethod,
+                odStatus
             } = req.body
 
-            const odStatus = 'Unpaid'
+            const deliveryId = await getLastDvIdByCsId(csId)
+            const dvId = deliveryId[0].dv_id
+
+            // const odStatus = 'Unpaid'
 
             const listOrderCs = await getAllOrderByIdCustomerNStatusCart(csId)
             let subTotal = 0
@@ -64,7 +71,8 @@ module.exports = {
 
             const data = {
                 cs_id: csId,
-                dv_id: delivId,
+                dv_id: dvId,
+                od_total_price_before_tax: subTotal,
                 od_totalPrice: odTotalPrice,
                 od_status: odStatus,
                 od_payment_method: odPaymentMethod,
@@ -73,7 +81,7 @@ module.exports = {
 
             const result = await model.createOrderDetailModel(data)
 
-            if (csId.trim() && delivId.trim() && odPaymentMethod.trim()) {
+            if (csId.trim() && odPaymentMethod.trim()) {
                 if (result.affectedRows) {
                     stat.statusCreate(res)
                 } else {
@@ -92,6 +100,7 @@ module.exports = {
             const {
                 odId
             } = req.params
+
             const data = req.body
             const resultSelect = await model.getOrderDetailByOdId(odId)
 
@@ -109,5 +118,55 @@ module.exports = {
             console.log(error)
             stat.statusErrorServer(res)
         }
-    }
+    },
+    historyOrderByCsId: async (req, res) => {
+        try {
+            const {
+                csId
+            } = req.params
+
+            const result = await model.getOrderDetailByOdId(odId)
+
+            if (result.length) {
+                stat.statusGet(res, result)
+            } else {
+                stat.statusNotFound(res)
+            }
+        } catch (error) {
+            stat.statusError(res)
+        }
+    },
+    updateDvIdByOdId: async (req, res) => {
+        try {
+            const {
+                csId
+            } = req.params
+
+            const orderDetailId = await getLastOdIdByCsId(csId)
+            const odId = orderDetailId[0].od_id
+
+            const deliveryId = await getLastDvIdByCsId(csId)
+            const delivId = deliveryId[0].dv_id
+
+            const data = {
+                dv_id: delivId
+            }
+
+            const resultSelect = await model.getOrderDetailByOdId(odId)
+
+            if (resultSelect.length) {
+                const resultUpdate = await model.updateOrderDetailModel(data, odId)
+                if (resultUpdate.affectedRows) {
+                    stat.statusUpdate(res)
+                } else {
+                    stat.statusFailedUpdate(res)
+                }
+            } else {
+                stat.statusNotFound(res)
+            }
+        } catch (error) {
+            console.log(error)
+            stat.statusErrorServer(res)
+        }
+    },
 }

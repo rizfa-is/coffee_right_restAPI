@@ -57,6 +57,23 @@ module.exports = {
         }
       })
     })
+  },
+  historyOrderByCsId: (csId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+      SELECT * FROM od order_detail join or order_tb 
+      WHERE cs_id = '${csId}'
+      ORDER BY od.created_at ASC
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
   }
 
 }

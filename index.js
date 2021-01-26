@@ -13,11 +13,12 @@ const productRouter = require('./src/routes/product')
 const orderDetailRouter = require('./src/routes/orderDetail')
 const orderRouter = require('./src/routes/order')
 const discountRouter = require('./src/routes/discount')
-const paymentRouter = require('./src/routes/payment')
 const deliveryRouter = require('./src/routes/delivery')
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
 app.use(morgan('dev'))
 app.use(cors())
 app.use('/images', express.static('./uploads'))
@@ -39,7 +40,6 @@ app.use('/admin', adminRouter)
 app.use('/orderDetail', orderDetailRouter)
 app.use('/order', orderRouter)
 app.use('/discount', discountRouter)
-app.use('/payment', paymentRouter)
 app.use('/delivery', deliveryRouter)
 
 app.get('/', (req, res) => {
