@@ -61,9 +61,9 @@ module.exports = {
     try {
       const {
         prId,
-        csId,
-        orAmount
+        csId
       } = req.body
+      const orAmount = 1
       const orStatus = 'Cart'
       const result = await getProductByPrIdModel(prId)
       const orPrice = result[0].pr_unit_price * orAmount
@@ -79,9 +79,7 @@ module.exports = {
 
       if (
         prId.trim() &&
-        csId.trim() &&
-        orStatus.trim() &&
-        orAmount.trim()
+        csId.trim()
       ) {
         const result = await model.createOrder(data)
         if (result.affectedRows) {
@@ -103,40 +101,85 @@ module.exports = {
         orId
       } = req.params
       const resultSelect = await model.getOrderByIdOrder(orId)
+      const prId = resultSelect[0].pr_id
 
       const {
-        orDt,
-        orYn,
-        orSt,
-        orStatus,
-        orAddress,
-        orMethod,
-        csId
+        orAmount,
       } = req.body
 
-      const listOrderDetailCs = await getODByIdOrder(orId)
-      let subTotal = 0
-      for (let i = 0; i < listOrderDetailCs.length; i++) {
-        subTotal += listOrderDetailCs[i].od_price
-      }
-
-      const orTax = subTotal * 0.1
-      const orTotal = subTotal + orTax
+      const unitPrice = await getProductByPrIdModel(prId)
+      const orPrice = orAmount * unitPrice[0].pr_unit_price
 
       const data = {
-        or_dt: orDt,
-        or_yn: orYn,
-        or_st: orSt,
-        or_status: orStatus,
-        or_address: orAddress,
-        or_method: orMethod,
-        or_tax: orTax,
-        or_total: orTotal,
-        cs_id: csId
+        or_amount: orAmount,
+        or_price: orPrice
       }
 
       if (resultSelect.length) {
         const resultUpdate = await model.updateOrder(orId, data)
+        if (resultUpdate.affectedRows) {
+          stat.statusUpdate(res, resultUpdate)
+        } else {
+          stat.statusUpdateFail(res)
+        }
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      console.log(error)
+      stat.statusError(res, error)
+    }
+  },
+
+  updateOdIdByCsIdNStatus: async (req, res) => {
+    try {
+      const {
+        csId
+      } = req.params
+
+      const resultSelect = await model.getAllOrderByIdCustomerNStatusCart(csId)
+
+      const orderDetailId = await model.getLastOdIdByCsId(csId)
+      const odId = orderDetailId[0].od_id
+      const orStatus = 'Done'
+
+      const data = {
+        od_id: odId,
+        or_status: orStatus
+      }
+
+      if (resultSelect.length) {
+        const resultUpdate = await model.updateOdIdByCsIdNStatus(csId, data)
+        if (resultUpdate.affectedRows) {
+          stat.statusUpdate(res, resultUpdate)
+        } else {
+          stat.statusUpdateFail(res)
+        }
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      console.log(error)
+      stat.statusError(res, error)
+    }
+  },
+
+  updateOrderStatusByOdId: async (req, res) => {
+    try {
+      const {
+        odId
+      } = req.params
+
+      const resultSelect = await model.getAllOrderByOdID(odId)
+
+      const orStatus = 'Done'
+
+      const data = {
+        or_status: orStatus,
+      }
+
+      if (resultSelect.length) {
+        const resultUpdate = await model.updateOrderStatusByOdId(odId, data)
         if (resultUpdate.affectedRows) {
           stat.statusUpdate(res, resultUpdate)
         } else {
@@ -157,9 +200,11 @@ module.exports = {
         orId
       } = req.params
       const resultSelect = await model.getAllOrder(orId)
+      console.log('hasil: ', resultSelect)
 
       if (resultSelect.length) {
         const resultDelete = await model.deleteOrder(orId)
+        console.log('delete:', resultDelete)
         if (resultDelete.affectedRows) {
           stat.statusDelete(res)
         } else {
@@ -171,6 +216,24 @@ module.exports = {
     } catch (error) {
       stat.statusServerError(res, error)
     }
-  }
+  },
+
+  historyOrderByOdId: async (req, res) => {
+    try {
+      const {
+        odId
+      } = req.params
+
+      const result = await model.historyOrderByOdId(odId)
+
+      if (result.length) {
+        stat.statusGet(res, result)
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      stat.statusError(res)
+    }
+  },
 
 }

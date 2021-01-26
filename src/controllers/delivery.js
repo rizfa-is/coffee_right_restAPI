@@ -3,7 +3,7 @@ const {
   getAllDeliveryModel,
   createDeliveryModel,
   updateDeliveryModel,
-  deleteDeliveryModel
+  deleteDeliveryByCsIdModel
 } = require('../models/delivery')
 
 module.exports = {
@@ -68,15 +68,15 @@ module.exports = {
 
   },
 
-  deleteDelivery: async (req, res) => {
+  deleteDeliveryByCsId: async (req, res) => {
     try {
       const {
-        dvId
+        csId
       } = req.params
       const resultSelect = await getAllDeliveryModel()
 
       if (resultSelect.length) {
-        const resultDelete = await deleteDeliveryModel(dvId)
+        const resultDelete = await deleteDeliveryByCsIdModel(csId)
         if (resultDelete.affectedRows) {
           stat.statusDelete(res)
         } else {
