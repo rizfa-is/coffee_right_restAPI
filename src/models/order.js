@@ -55,7 +55,9 @@ module.exports = {
   getAllOrderByIdCustomerNStatusCart: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
-      SELECT * FROM order_tb WHERE cs_id = '${csId}' && or_status = 'Cart'
+      SELECT * from order_tb 
+      join product on order_tb.pr_id = product.pr_id 
+      WHERE order_tb.cs_id = 3 AND order_tb.or_status = 'Cart'
       `
 
       dbConnect.query(query, (error, results, _fields) => {
