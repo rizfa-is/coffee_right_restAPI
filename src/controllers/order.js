@@ -112,9 +112,7 @@ module.exports = {
       const resultSelect = await model.getOrderByIdOrder(orId)
       const prId = resultSelect[0].pr_id
 
-      const {
-        orAmount,
-      } = req.body
+      const orAmount = resultSelect[0].or_amount + 1
 
       const result = await getProductByPrIdModel(prId)
       const dcId = result[0].dc_id
