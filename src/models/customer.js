@@ -69,6 +69,8 @@ module.exports = {
         SELECT cs.cs_id,
                ac.ac_id,
                ac.ac_name,
+               ac.ac_email,
+               ac.ac_phone,
                cs.cs_gender,
                cs.cs_birthday,
                cs.cs_address,
