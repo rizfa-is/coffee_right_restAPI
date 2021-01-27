@@ -1,8 +1,6 @@
 const stat = require('../helpers/status')
 const model = require('../models/order')
-const {
-  getODByIdOrder
-} = require('../models/orderDetail')
+
 const {
   getProductByPrIdModel
 } = require('../models/product')
@@ -138,6 +136,46 @@ module.exports = {
       }
     } catch (error) {
       stat.statusError(res, error)
+    }
+  },
+
+  updateOrderByIdOrderMin: async (req, res) => {
+    try {
+      const {
+        orId
+      } = req.params
+      const resultSelect = await model.getOrderByIdOrder(orId)
+      const prId = resultSelect[0].pr_id
+      console.log(prId)
+      const orAmount = resultSelect[0].or_amount - 1
+
+      const result = await getProductByPrIdModel(prId)
+      const dcId = result[0].dc_id
+
+      const resultDiscount = await getDiscountByDcId(dcId)
+      const discount = result[0].pr_unit_price * resultDiscount[0].dc_nominal
+
+      const priceProductWithDiscount = result[0].pr_unit_price - discount
+      const orPrice = priceProductWithDiscount * orAmount
+
+      const data = {
+        or_amount: orAmount,
+        or_price: orPrice
+      }
+
+      if (resultSelect.length) {
+        const resultUpdate = await model.updateOrder(orId, data)
+        if (resultUpdate.affectedRows) {
+          stat.statusUpdate(res, resultUpdate)
+        } else {
+          stat.statusUpdateFail(res)
+        }
+      } else {
+        stat.statusNotFound(res)
+      }
+    } catch (error) {
+      stat.statusError(res, error)
+      console.log(error)
     }
   },
 
