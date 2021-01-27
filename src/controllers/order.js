@@ -70,11 +70,9 @@ module.exports = {
       const orStatus = 'Cart'
       const result = await getProductByPrIdModel(prId)
       const dcId = result[0].dc_id
-      console.log('dcId:', dcId)
 
       const resultDiscount = await getDiscountByDcId(dcId)
       const discount = result[0].pr_unit_price * resultDiscount[0].dc_nominal
-      console.log('discount: ', discount)
 
       const priceProductWithDiscount = result[0].pr_unit_price - discount
       const orPrice = priceProductWithDiscount * orAmount
@@ -116,11 +114,9 @@ module.exports = {
 
       const result = await getProductByPrIdModel(prId)
       const dcId = result[0].dc_id
-      console.log(dcId)
 
       const resultDiscount = await getDiscountByDcId(dcId)
       const discount = result[0].pr_unit_price * resultDiscount[0].dc_nominal
-      console.log(discount)
 
       const priceProductWithDiscount = result[0].pr_unit_price - discount
       const orPrice = priceProductWithDiscount * orAmount
@@ -141,7 +137,6 @@ module.exports = {
         stat.statusNotFound(res)
       }
     } catch (error) {
-      console.log(error)
       stat.statusError(res, error)
     }
   },
@@ -174,7 +169,6 @@ module.exports = {
         stat.statusNotFound(res)
       }
     } catch (error) {
-      console.log(error)
       stat.statusError(res, error)
     }
   },
@@ -204,7 +198,6 @@ module.exports = {
         stat.statusNotFound(res)
       }
     } catch (error) {
-      console.log(error)
       stat.statusError(res, error)
     }
   },
@@ -215,11 +208,9 @@ module.exports = {
         orId
       } = req.params
       const resultSelect = await model.getAllOrder(orId)
-      console.log('hasil: ', resultSelect)
 
       if (resultSelect.length) {
         const resultDelete = await model.deleteOrder(orId)
-        console.log('delete:', resultDelete)
         if (resultDelete.affectedRows) {
           stat.statusDelete(res)
         } else {
@@ -248,7 +239,6 @@ module.exports = {
       }
     } catch (error) {
       stat.statusError(res)
-      console.log(error)
     }
   },
 

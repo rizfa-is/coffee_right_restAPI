@@ -66,7 +66,6 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
-      console.log(error)
     }
   },
 
@@ -111,7 +110,6 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
-      console.log(error)
     }
   },
 
@@ -156,7 +154,6 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
-      console.log(error)
     }
   },
   updateProductByPrId: async (req, res) => {
@@ -172,7 +169,6 @@ module.exports = {
         ...data,
         pr_image: image
       }
-      console.log(setData);
       if (resultSelect.length) {
         const resultUpdate = await updateProductByPrIdModel(setData, prId)
         if (resultUpdate.affectedRows) {

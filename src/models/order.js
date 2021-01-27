@@ -116,7 +116,6 @@ module.exports = {
         if (!error) {
           resolve(results)
         } else {
-          console.log(error);
           reject(error)
         }
 
@@ -190,7 +189,6 @@ module.exports = {
         if (!error) {
           resolve(results)
         } else {
-          console.log(error);
           reject(error)
         }
 
