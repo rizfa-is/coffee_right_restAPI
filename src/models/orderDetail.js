@@ -5,7 +5,7 @@ module.exports = {
   getAllOrderDetailByCsIdModel: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
-      SELECT * FROM order_detail WHERE cs_id = ${csId}
+      SELECT * FROM order_detail WHERE cs_id = '${csId}'
       `
 
       dbConnect.query(query, (error, results, _fields) => {
