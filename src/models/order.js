@@ -57,7 +57,7 @@ module.exports = {
       const query = `
       SELECT * from order_tb 
       join product on order_tb.pr_id = product.pr_id 
-      WHERE order_tb.cs_id = 3 AND order_tb.or_status = 'Cart'
+      WHERE order_tb.cs_id = '${csId}' AND order_tb.or_status = 'Cart'
       `
 
       dbConnect.query(query, (error, results, _fields) => {
