@@ -26,5 +26,13 @@
   "devDependencies": {
     "nodemon": "^2.0.6",
     "standard": "^16.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miqdad71/coffee_right_restAPI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/miqdad71/coffee_right_restAPI/issues"
+  },
+  "homepage": "https://github.com/miqdad71/coffee_right_restAPI#readme"
 }
