@@ -86,6 +86,7 @@ module.exports = {
         stat.statusNotFound(res)
       }
     } catch (error) {
+      console.log(error);
       stat.statusServerError(res, error)
     }
   }
