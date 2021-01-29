@@ -193,7 +193,7 @@ module.exports = {
 
       if (findData.length) {
         const match = await bcrypt.compare(acPassword, findData[0].ac_password)
-
+        console.log(findData)
         if (match) {
           statusGet(res)
         } else {
