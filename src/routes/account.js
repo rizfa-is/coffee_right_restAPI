@@ -21,7 +21,7 @@ router.put('/update/:acId', updateAccount)
 router.put('/password/update/:acId', hashPassword, updateAccountPass)
 router.post('/login', loginAccount)
 router.post('/email/check', checkEmail)
-router.post('/password/check/:acId', hashPassword, checkPassword)
+router.post('/password/check/:acId', checkPassword)
 router.get('/detail/:acId', detailAccount)
 router.delete('/delete/:acId', deleteAccount)
 
