@@ -21,7 +21,7 @@ module.exports = {
   getAllCustomer: () => {
     return new Promise((resolve, reject) => {
       const query = `
-      SELECT cs.cs_id,
+        SELECT cs.cs_id,
           ac.ac_id,
           ac.ac_name,
           ac.ac_email,
