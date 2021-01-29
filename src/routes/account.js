@@ -18,10 +18,10 @@ const {
 
 router.post('/register', hashPassword, createAccount)
 router.put('/update/:acId', updateAccount)
-router.put('/update/password/:acId', hashPassword, updateAccountPass)
+router.put('/password/update/:acId', hashPassword, updateAccountPass)
 router.post('/login', loginAccount)
 router.post('/email/check', checkEmail)
-router.post('/password/check/:acId', checkPassword)
+router.post('/password/check/:acId', hashPassword, checkPassword)
 router.get('/detail/:acId', detailAccount)
 router.delete('/delete/:acId', deleteAccount)
 
