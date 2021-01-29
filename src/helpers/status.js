@@ -53,6 +53,13 @@ module.exports = {
     })
   },
 
+  statusWrongPassword: (res) => {
+    res.status(400).send({
+      success: false,
+      message: 'Wrong Password!'
+    })
+  },
+
   statusRegistration: (res) => {
     res.status(201).send({
       success: true,

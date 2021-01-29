@@ -7,6 +7,7 @@ const {
   updateAccount,
   getAccountById,
   getAccountByEmail,
+  getAccountByPassword,
   deleteAccount
 } = require('../models/account')
 
@@ -32,6 +33,7 @@ const {
   statusDelete,
   statusDeleteFail,
   statusServerError,
+  statusWrongPassword,
   statusTokenError
 } = require('../helpers/status')
 
@@ -177,6 +179,28 @@ module.exports = {
         statusGet(res, result)
       } else {
         statusNotFoundAccount(res)
+      }
+    } catch (err) {
+      statusServerError(res)
+    }
+  },
+
+  checkPassword: async (req, res, _next) => {
+    try {
+      const { acId } = req.params
+      const { acPassword } = req.body
+      const findData = await getAccountByPassword(acId, acPassword)
+
+      if (findData.length) {
+        const match = await bcrypt.compare(acPassword, findData[0].ac_password)
+
+        if (match) {
+          statusGet(res)
+        } else {
+          statusWrongPassword(res)
+        }
+      } else {
+        statusNotFound(res)
       }
     } catch (err) {
       statusServerError(res)
