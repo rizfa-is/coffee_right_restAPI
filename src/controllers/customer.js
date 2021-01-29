@@ -10,7 +10,7 @@ const {
   statusUpdateFail,
   statusServerError,
   statusNotFound
-} = require('../helpers/status')
+} = require('../helpers/status');
 
 module.exports = {
   getAllCustomer: async (_req, res, _next) => {
@@ -18,6 +18,7 @@ module.exports = {
       const result = await getAllCustomer()
 
       if (result.length) {
+         console.log(result);
         statusGet(res, result)
       } else {
         statusNotFound(res)
