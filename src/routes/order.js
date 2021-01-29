@@ -10,6 +10,7 @@ const {
     getAllOrderByCustomerNStatusCart,
     updateOdIdByCsIdNStatus,
     updateOrderStatusByOdId,
+    updateOrderByIdOrderMin,
     historyOrderByOdId
 } = require('../controllers/order')
 
@@ -21,6 +22,7 @@ router.get('/historyOrderByOdId/:odId', historyOrderByOdId)
 router.post('/addOrder', addOrder)
 
 router.put('/updateOrder/:orId', updateOrderByIdOrder)
+router.put('/updateOrderMin/:orId', updateOrderByIdOrderMin)
 router.put('/updateOdIdByCsId/:csId', updateOdIdByCsIdNStatus)
 router.put('/updateOrderStatusByOdId/:odId', updateOrderStatusByOdId)
 

@@ -7,12 +7,14 @@ const {
     getProductByPrId,
     addProduct,
     updateProductByPrId,
-    deleteProductByPrId
+    deleteProductByPrId,
+    getFilterProduct
 } = require('../controllers/product')
 
 const uploadImage = require('../middleware/multer')
 
 router.get('/getAllProduct', getAllProduct)
+router.get('/getFilterProduct', getFilterProduct)
 router.get('/getProductByPrId/:prId', getProductByPrId)
 router.get('/getAllProductGroupByName', getAllProductGroupByName)
 router.post('/addProduct', uploadImage, addProduct)

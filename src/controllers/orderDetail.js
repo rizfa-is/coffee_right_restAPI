@@ -91,7 +91,6 @@ module.exports = {
                 stat.statusMustFillAllFields(res)
             }
         } catch (error) {
-            console.log(error)
             stat.statusErrorServer(res)
         }
     },
@@ -115,7 +114,6 @@ module.exports = {
                 stat.statusNotFound(res)
             }
         } catch (error) {
-            console.log(error)
             stat.statusErrorServer(res)
         }
     },
@@ -165,7 +163,6 @@ module.exports = {
                 stat.statusNotFound(res)
             }
         } catch (error) {
-            console.log(error)
             stat.statusErrorServer(res)
         }
     },
