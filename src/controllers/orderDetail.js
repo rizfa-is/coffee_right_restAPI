@@ -166,4 +166,25 @@ module.exports = {
             stat.statusErrorServer(res)
         }
     },
+    deleteOrderDetail: async (req, res) => {
+        try {
+          const {
+            odId
+          } = req.params
+          const resultSelect = await model.getOrderDetailByOdId(odId)
+    
+          if (resultSelect.length) {
+            const resultDelete = await model.deleteOrderDetail(odId)
+            if (resultDelete.affectedRows) {
+              stat.statusDelete(res)
+            } else {
+              stat.statusDeleteFail(res)
+            }
+          } else {
+            stat.statusNotFound(res)
+          }
+        } catch (error) {
+          stat.statusServerError(res, error)
+        }
+      }
 }
