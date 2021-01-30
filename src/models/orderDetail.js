@@ -74,6 +74,23 @@ module.exports = {
         }
       })
     })
+  },
+  deleteOrderDetail: (odId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        DELETE 
+        FROM order_detail
+         WHERE od_id = '${odId}' 
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
   }
 
 }
