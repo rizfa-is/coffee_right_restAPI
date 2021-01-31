@@ -91,7 +91,7 @@ module.exports = {
     })
   },
 
-  getAccountByPassword: (acId, data) => {
+  getAccountByPassword: (acId) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT *
@@ -99,7 +99,7 @@ module.exports = {
          WHERE ac_id = ${acId}
       `
 
-      dbConnect.query(query, data, (error, results, _fields) => {
+      dbConnect.query(query, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {

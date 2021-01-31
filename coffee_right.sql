@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Jan 2021 pada 16.12
+-- Waktu pembuatan: 30 Jan 2021 pada 09.00
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `coffee_right2`
+-- Database: `coffee_right`
 --
 
 -- --------------------------------------------------------
@@ -46,7 +46,8 @@ INSERT INTO `account` (`ac_id`, `ac_email`, `ac_password`, `ac_name`, `ac_phone`
 (1, 'ikrima@gmail.com', '$2b$10$ZRhi/UvOOtlhenIOOMU9ZuX7gLVcBkYkK/04xv1IT2thCNcbzePX2', 'Ikrima', '081298056468', 0, '2021-01-25 01:30:53', '2021-01-25 01:32:54'),
 (2, 'rosadi@gmail.com', '$2b$10$JI6OnRRAXXqzv8pQSvXJCuMdrx4HevcopC8MdVnmFxAbZVcq6CGrW', 'Rosyid Rosadi', '089609960946', 1, '2021-01-25 01:31:19', '2021-01-25 01:32:42'),
 (4, 'alvita@gmail.com', '$2b$10$nGWADHkwv9jTM9M/Rirge.KnbIkchcVs2GngkzbpjkMnl4.RI1mWO', 'Alvita', '086788543123', 0, '2021-01-25 00:55:18', '2021-01-25 00:55:18'),
-(5, 'yolanda@gmail.com', '$2b$10$TCwJA24syejdsDc7rIj8sum3kgnSGUELpNTK3gxCep.2BWbh.zUBe', 'Yolanda', '086788543123', 0, '2021-01-25 23:42:36', '2021-01-25 23:42:36');
+(5, 'yolanda@gmail.com', '$2b$10$TCwJA24syejdsDc7rIj8sum3kgnSGUELpNTK3gxCep.2BWbh.zUBe', 'Yolanda', '086788543123', 0, '2021-01-25 23:42:36', '2021-01-25 23:42:36'),
+(6, 'cobacheck@gmail.com', '$2b$10$IYqY5kiEM4Nt0OWwLt0XfuNN7C2hnSKFS5zgAXBJrRPbN87rRqIQu', 'Coba Password Check', '081298056468', 0, '2021-01-29 03:59:41', '2021-01-29 03:59:41');
 
 -- --------------------------------------------------------
 
@@ -103,7 +104,8 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`cs_id`, `ac_id`, `cs_gender`, `cs_birthday`, `cs_address`, `cs_image`, `cs_created_at`, `cs_updated_at`) VALUES
 (1, 1, 'Female', '1998-11-04', 'Bekasi', 'IMG-1611538629406.jpg', '2021-01-25 01:30:53', '2021-01-26 15:10:55'),
 (2, 4, 'Male', '1998-04-02', 'Malang', 'IMG-1611565046259.jpg', '2021-01-25 00:55:18', '2021-01-26 15:11:09'),
-(3, 5, NULL, '1997-07-29', NULL, NULL, '2021-01-25 23:42:36', '2021-01-26 15:11:59');
+(3, 5, NULL, '1997-07-29', NULL, NULL, '2021-01-25 23:42:36', '2021-01-26 15:11:59'),
+(4, 6, NULL, NULL, NULL, NULL, '2021-01-29 03:59:41', '2021-01-29 03:59:41');
 
 -- --------------------------------------------------------
 
@@ -128,10 +130,10 @@ CREATE TABLE `delivery` (
 
 INSERT INTO `delivery` (`dv_id`, `cs_id`, `dv_dt`, `dv_yn`, `dv_st`, `dv_address`, `dv_created_at`, `dv_updated_at`) VALUES
 (4, 2, 'DI', 'Y', '12:00:00', 'Malang', '2021-01-25 09:23:33', '2021-01-26 01:48:26'),
-(5, 2, 'PU', 'Y', '15:00:00', 'Malang', '2021-01-25 13:10:01', '2021-01-26 01:46:15'),
-(8, 2, 'PU', 'Y', '15:00:00', 'Belimbing, Malang', '2021-01-26 05:19:55', '2021-01-26 05:19:55'),
-(9, 2, 'PU', 'Y', '15:00:00', 'Singosari, Malang', '2021-01-26 05:51:52', '2021-01-26 05:51:52'),
-(15, 3, 'PU', 'Y', '15:00:00', 'Bojong Gede', '2021-01-26 12:47:39', '2021-01-26 12:47:39');
+(16, 3, 'PU', 'Y', '15:00:00', 'Bojong Gede', '2021-01-28 15:37:03', '2021-01-28 15:37:03'),
+(18, 3, 'PU', 'Y', '15:00:00', 'Pondok Gede', '2021-01-28 16:00:42', '2021-01-28 16:00:42'),
+(19, 3, 'PU', 'Y', '15:00:00', 'Cakung', '2021-01-28 16:00:48', '2021-01-28 16:00:48'),
+(20, 1, 'PU', 'Y', '15:00:00', 'Cakung', '2021-01-30 07:28:47', '2021-01-30 07:28:47');
 
 -- --------------------------------------------------------
 
@@ -180,10 +182,7 @@ CREATE TABLE `order_detail` (
 
 INSERT INTO `order_detail` (`od_id`, `cs_id`, `dv_id`, `od_total_price_before_tax`, `co_id`, `od_totalPrice`, `od_status`, `od_payment_method`, `od_tax`, `od_created_at`, `od_updated_at`) VALUES
 (1, 2, 4, 85000, NULL, 93500, 'Done', 'COD', 8500, '2021-01-25 09:42:33', '2021-01-26 02:39:12'),
-(3, 2, 5, 59000, NULL, 64900, 'Unpaid', 'COD', 5900, '2021-01-25 13:11:36', '2021-01-26 02:22:38'),
-(12, 2, 8, 74000, NULL, 81400, 'Done', 'COD', 7400, '2021-01-26 05:20:38', '2021-01-26 05:29:11'),
-(13, 2, 9, 37000, NULL, 40700, 'Unpaid', 'COD', 3700, '2021-01-26 05:52:30', '2021-01-26 05:52:30'),
-(15, 3, 15, 73600, NULL, 80960, 'Paid', 'Card', 7360, '2021-01-26 12:48:46', '2021-01-26 12:48:46');
+(16, 1, 20, 25000, NULL, 27500, 'Paid', 'Card', 2500, '2021-01-30 07:29:27', '2021-01-30 07:29:27');
 
 -- --------------------------------------------------------
 
@@ -208,10 +207,9 @@ CREATE TABLE `order_tb` (
 --
 
 INSERT INTO `order_tb` (`or_id`, `pr_id`, `cs_id`, `or_status`, `or_amount`, `or_price`, `od_id`, `or_created_at`, `or_updated_at`) VALUES
-(3, 1, 2, 'Done', 2, 50000, 1, '2021-01-25 09:01:33', '2021-01-25 14:15:25'),
-(5, 4, 2, 'Done', 1, 27000, 3, '2021-01-25 12:49:49', '2021-01-26 00:22:37'),
-(18, 7, 3, 'Done', 2, 48600, 15, '2021-01-26 12:45:23', '2021-01-26 12:52:10'),
-(19, 1, 3, 'Done', 1, 25000, 15, '2021-01-26 12:45:49', '2021-01-26 12:52:10');
+(3, 1, 2, 'Done', 8, 200000, 1, '2021-01-25 09:01:33', '2021-01-27 16:16:52'),
+(20, 7, 2, 'Cart', 1, 24300, NULL, '2021-01-28 15:12:48', '2021-01-28 15:12:48'),
+(21, 1, 1, 'Done', 1, 25000, 16, '2021-01-30 07:27:58', '2021-01-30 07:32:11');
 
 -- --------------------------------------------------------
 
@@ -239,7 +237,8 @@ CREATE TABLE `product` (
 INSERT INTO `product` (`pr_id`, `dc_id`, `pr_name`, `pr_desc`, `pr_unit_price`, `pr_image`, `pr_favorite`, `pr_category`, `pr_created_at`, `pr_updated_at`) VALUES
 (1, 1, 'Hazelnut Latte', 'good taste of hazelnut latte', 25000, 'IMG-1611564216226.png', 'Y', 'Drink', '2021-01-25 08:43:36', '2021-01-25 08:43:36'),
 (4, 1, 'Creamy Ice Latte', 'good taste of creamy ice latte', 27000, 'IMG-1611578879909.png', 'Y', 'Drink', '2021-01-25 12:47:59', '2021-01-25 12:47:59'),
-(7, 2, 'Choco Oreo', 'Good taste of choco oreo', 27000, 'IMG-1611663972201.png', 'Y', 'Drink', '2021-01-26 12:03:42', '2021-01-26 12:26:12');
+(7, 2, 'Choco Oreo', 'Good taste of choco oreo', 27000, 'IMG-1611663972201.png', 'Y', 'Drink', '2021-01-26 12:03:42', '2021-01-26 12:26:12'),
+(8, 2, 'Bakwan Malang', 'Hot Spicy', 30000, 'IMG-1611663972201.png', 'Y', 'Food', '2021-01-26 12:03:42', '2021-01-26 12:26:12');
 
 --
 -- Indexes for dumped tables
@@ -316,7 +315,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT untuk tabel `account`
 --
 ALTER TABLE `account`
-  MODIFY `ac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `admin`
@@ -334,13 +333,13 @@ ALTER TABLE `coupon`
 -- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `cs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `dv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `dv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `discount`
@@ -352,19 +351,19 @@ ALTER TABLE `discount`
 -- AUTO_INCREMENT untuk tabel `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `od_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `od_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_tb`
 --
 ALTER TABLE `order_tb`
-  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `product`
 --
 ALTER TABLE `product`
-  MODIFY `pr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `pr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

@@ -199,10 +199,11 @@ module.exports = {
   historyOrderByOdId: (odId) => {
     return new Promise((resolve, reject) => {
       const query = `
-      SELECT p.pr_name, o.or_price, od.od_status, o.or_amount 
-      FROM order_tb o join product p on o.pr_id = p.pr_id
+      SELECT *
+      FROM order_tb o 
+      join product p on o.pr_id = p.pr_id
       join order_detail od on o.od_id = od.od_id
-      WHERE o.od_id = '${odId}' AND o.or_status = 'Done'
+      WHERE o.od_id = '${odId}' 
       `
 
       dbConnect.query(query, (error, results, _fields) => {
