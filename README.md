@@ -49,7 +49,7 @@ JWT_KEY =YOUR_JWT_KEY
 https://documenter.getpostman.com/view/13426001/TW6tLVfW
 
 
-<!-- ## End-Point
+## End-Point
 
  ```
 1. Account
@@ -192,4 +192,4 @@ https://documenter.getpostman.com/view/13426001/TW6tLVfW
 
     - Delete Discount [DELETE]
       http://184.72.105.243:3000/discount/{id}
-``` -->
+```
