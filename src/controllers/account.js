@@ -142,7 +142,7 @@ module.exports = {
               }
             }
 
-            JWT.sign({ payload }, process.env.JWT_KEY, { expiresIn: '7d' }, (err, token) => {
+            JWT.sign({ payload }, process.env.JWT_KEY, { expiresIn: '30d' }, (err, token) => {
               if (token) {
                 JWT.verify(token, process.env.JWT_KEY, (_err, data) => {
                   const result = {
