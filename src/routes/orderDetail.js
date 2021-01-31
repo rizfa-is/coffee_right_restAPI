@@ -7,9 +7,11 @@ const {
     createOrderDetail,
     updateOrderDetail,
     updateDvIdByOdId,
-    deleteOrderDetail
+    deleteOrderDetail,
+    getAllOrderDetail
 } = require('../controllers/orderDetail')
 
+router.get('/getAllOD', getAllOrderDetail)
 router.get('/getAllByCsId/:csId', getAllOrderDetailByCsId)
 router.get('/getAllById/:odId', getAllODById)
 

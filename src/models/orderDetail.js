@@ -2,6 +2,22 @@ const dbConnect = require('../config/db')
 
 module.exports = {
 
+  getAllOrderDetail: () => {
+    return new Promise((resolve, reject) => {
+      const query = `
+      SELECT * FROM order_detail
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+
   getAllOrderDetailByCsIdModel: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
