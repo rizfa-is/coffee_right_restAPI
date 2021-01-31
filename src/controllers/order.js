@@ -70,11 +70,9 @@ module.exports = {
       const orStatus = 'Cart'
       const result = await getProductByPrIdModel(prId)
       const dcId = result[0].dc_id
-      console.log('dcId:', dcId)
 
       const resultDiscount = await getDiscountByDcId(dcId)
       const discount = result[0].pr_unit_price * resultDiscount[0].dc_nominal
-      console.log('discount: ', discount)
 
       const priceProductWithDiscount = result[0].pr_unit_price - discount
       const orPrice = priceProductWithDiscount * orAmount
@@ -112,17 +110,13 @@ module.exports = {
       const resultSelect = await model.getOrderByIdOrder(orId)
       const prId = resultSelect[0].pr_id
 
-      const {
-        orAmount,
-      } = req.body
+      const orAmount = resultSelect[0].or_amount + 1
 
       const result = await getProductByPrIdModel(prId)
       const dcId = result[0].dc_id
-      console.log(dcId)
 
       const resultDiscount = await getDiscountByDcId(dcId)
       const discount = result[0].pr_unit_price * resultDiscount[0].dc_nominal
-      console.log(discount)
 
       const priceProductWithDiscount = result[0].pr_unit_price - discount
       const orPrice = priceProductWithDiscount * orAmount

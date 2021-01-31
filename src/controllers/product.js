@@ -19,7 +19,8 @@ const {
   addProductModel,
   updateProductByPrIdModel,
   deleteProductByPrIdModel,
-  getSearchProductModel
+  getSearchProductModel,
+  getFilterProductModel
 } = require('../models/product')
 
 const isEmpty = require('lodash.isempty')
@@ -207,5 +208,49 @@ module.exports = {
     } catch (error) {
       statusErrorServer(res, error)
     }
-  }
+  },
+  getFilterProduct: async (req, res) => {
+    let {
+      filter,
+      limit,
+      page
+    } = req.query
+
+    if (!limit) {
+      limit = 500
+    } else {
+      limit = parseInt(limit)
+    }
+
+    if (!page) {
+      page = 1
+    } else {
+      page = parseInt(page)
+    }
+
+    const paginate = {
+      filter: filter,
+      limit: limit,
+      offset: (page - 1) * limit
+    }
+
+    try {
+      let result = await getAllProductModel(paginate)
+
+      if (isEmpty(filter)) {
+        result = await getAllProductModel(paginate)
+      } else {
+        result = await getFilterProductModel(paginate)
+      }
+
+      if (result.length) {
+        statusRead(res, result)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
+      statusErrorServer(res, error)
+      console.log(error)
+    }
+  },
 }
