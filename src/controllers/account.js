@@ -7,6 +7,7 @@ const {
   updateAccount,
   getAccountById,
   getAccountByEmail,
+  getAccountByPassword,
   deleteAccount
 } = require('../models/account')
 
@@ -32,6 +33,7 @@ const {
   statusDelete,
   statusDeleteFail,
   statusServerError,
+  statusWrongPassword,
   statusTokenError
 } = require('../helpers/status')
 
@@ -123,7 +125,9 @@ module.exports = {
                 ac_name: findData[0].ac_name,
                 ac_level: findData[0].ac_level,
                 ac_email: findData[0].ac_email,
-                ac_phone: findData[0].ac_phone
+                ac_phone: findData[0].ac_phone,
+                cs_image: result[0].cs_image,
+                cs_address: result[0].cs_address
 
               }
             } else {
@@ -133,11 +137,12 @@ module.exports = {
                 ac_name: findData[0].ac_name,
                 ac_level: findData[0].ac_level,
                 ac_email: findData[0].ac_email,
-                ac_phone: findData[0].ac_phone
+                ac_phone: findData[0].ac_phone,
+                ad_image: result[0].ad_image
               }
             }
 
-            JWT.sign({ payload }, process.env.JWT_KEY, { expiresIn: '7d' }, (err, token) => {
+            JWT.sign({ payload }, process.env.JWT_KEY, { expiresIn: '30d' }, (err, token) => {
               if (token) {
                 JWT.verify(token, process.env.JWT_KEY, (_err, data) => {
                   const result = {
@@ -174,6 +179,28 @@ module.exports = {
         statusGet(res, result)
       } else {
         statusNotFoundAccount(res)
+      }
+    } catch (err) {
+      statusServerError(res)
+    }
+  },
+
+  checkPassword: async (req, res, _next) => {
+    try {
+      const { acId } = req.params
+      const { acPassword } = req.body
+      const findData = await getAccountByPassword(acId, acPassword)
+
+      if (findData.length) {
+        const match = await bcrypt.compare(acPassword, findData[0].ac_password)
+        console.log(findData)
+        if (match) {
+          statusGet(res)
+        } else {
+          statusWrongPassword(res)
+        }
+      } else {
+        statusNotFound(res)
       }
     } catch (err) {
       statusServerError(res)

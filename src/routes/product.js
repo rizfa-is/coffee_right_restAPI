@@ -14,6 +14,7 @@ const {
 const uploadImage = require('../middleware/multer')
 
 router.get('/getAllProduct', getAllProduct)
+router.get('/getFilterProduct', getFilterProduct)
 router.get('/getProductByPrId/:prId', getProductByPrId)
 router.get('/getFilterProduct', getFilterProduct)
 router.get('/getAllProductGroupByName', getAllProductGroupByName)

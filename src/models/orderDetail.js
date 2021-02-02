@@ -6,10 +6,26 @@ const {
 
 module.exports = {
 
+  getAllOrderDetail: () => {
+    return new Promise((resolve, reject) => {
+      const query = `
+      SELECT * FROM order_detail
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+
   getAllOrderDetailByCsIdModel: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
-      SELECT * FROM order_detail WHERE cs_id = ${csId}
+      SELECT * FROM order_detail WHERE cs_id = '${csId}'
       `
 
       dbConnect.query(query, (error, results, _fields) => {
@@ -113,6 +129,23 @@ module.exports = {
       SELECT * FROM od order_detail join or order_tb 
       WHERE cs_id = '${csId}'
       ORDER BY od.created_at ASC
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+  deleteOrderDetail: (odId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        DELETE 
+        FROM order_detail
+         WHERE od_id = '${odId}' 
       `
 
       dbConnect.query(query, (error, results, _fields) => {

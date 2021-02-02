@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Jan 2021 pada 03.24
+-- Waktu pembuatan: 30 Jan 2021 pada 09.00
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -43,8 +43,11 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`ac_id`, `ac_email`, `ac_password`, `ac_name`, `ac_phone`, `ac_level`, `ac_created_at`, `ac_updated_at`) VALUES
-(1, 'miqdad@gmail.com', '$2b$10$iGb9.qhA8PSnE9YfazX7duryjOPbBKq5zF4AOFbW8RcgReUu4SLH6', 'Miqdad', '081298056468', 0, '2021-01-20 15:15:02', '2021-01-23 09:28:06'),
-(2, 'ikrima@gmail.com', '$2b$10$PL.tQ6CqkjlNwMCSIDIjF.7oSygVHPk93zNM7L84/5fcqcfzlMKsO', 'Ikrima', '082987651222', 1, '2021-01-20 15:15:15', '2021-01-23 02:38:51');
+(1, 'ikrima@gmail.com', '$2b$10$ZRhi/UvOOtlhenIOOMU9ZuX7gLVcBkYkK/04xv1IT2thCNcbzePX2', 'Ikrima', '081298056468', 0, '2021-01-25 01:30:53', '2021-01-25 01:32:54'),
+(2, 'rosadi@gmail.com', '$2b$10$JI6OnRRAXXqzv8pQSvXJCuMdrx4HevcopC8MdVnmFxAbZVcq6CGrW', 'Rosyid Rosadi', '089609960946', 1, '2021-01-25 01:31:19', '2021-01-25 01:32:42'),
+(4, 'alvita@gmail.com', '$2b$10$nGWADHkwv9jTM9M/Rirge.KnbIkchcVs2GngkzbpjkMnl4.RI1mWO', 'Alvita', '086788543123', 0, '2021-01-25 00:55:18', '2021-01-25 00:55:18'),
+(5, 'yolanda@gmail.com', '$2b$10$TCwJA24syejdsDc7rIj8sum3kgnSGUELpNTK3gxCep.2BWbh.zUBe', 'Yolanda', '086788543123', 0, '2021-01-25 23:42:36', '2021-01-25 23:42:36'),
+(6, 'cobacheck@gmail.com', '$2b$10$IYqY5kiEM4Nt0OWwLt0XfuNN7C2hnSKFS5zgAXBJrRPbN87rRqIQu', 'Coba Password Check', '081298056468', 0, '2021-01-29 03:59:41', '2021-01-29 03:59:41');
 
 -- --------------------------------------------------------
 
@@ -65,7 +68,17 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`ad_id`, `ac_id`, `ad_image`, `ad_created_at`, `ad_updated_at`) VALUES
-(1, 2, 'image-1611154800177.jpg', '2021-01-20 15:15:15', '2021-01-23 02:45:01');
+(1, 2, 'IMG-1611538464230.jpg', '2021-01-25 01:31:19', '2021-01-25 01:34:24');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `coupon`
+--
+
+CREATE TABLE `coupon` (
+  `co_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -76,6 +89,8 @@ INSERT INTO `admin` (`ad_id`, `ac_id`, `ad_image`, `ad_created_at`, `ad_updated_
 CREATE TABLE `customer` (
   `cs_id` int(11) NOT NULL,
   `ac_id` int(11) DEFAULT NULL,
+  `cs_gender` enum('Male','Female') DEFAULT NULL,
+  `cs_birthday` date DEFAULT NULL,
   `cs_address` text DEFAULT NULL,
   `cs_image` text DEFAULT NULL,
   `cs_created_at` timestamp NULL DEFAULT current_timestamp(),
@@ -86,8 +101,39 @@ CREATE TABLE `customer` (
 -- Dumping data untuk tabel `customer`
 --
 
-INSERT INTO `customer` (`cs_id`, `ac_id`, `cs_address`, `cs_image`, `cs_created_at`, `cs_updated_at`) VALUES
-(1, 1, 'Kalimalang', 'IMG-1611157494269.jpg', '2021-01-20 15:15:02', '2021-01-20 15:44:54');
+INSERT INTO `customer` (`cs_id`, `ac_id`, `cs_gender`, `cs_birthday`, `cs_address`, `cs_image`, `cs_created_at`, `cs_updated_at`) VALUES
+(1, 1, 'Female', '1998-11-04', 'Bekasi', 'IMG-1611538629406.jpg', '2021-01-25 01:30:53', '2021-01-26 15:10:55'),
+(2, 4, 'Male', '1998-04-02', 'Malang', 'IMG-1611565046259.jpg', '2021-01-25 00:55:18', '2021-01-26 15:11:09'),
+(3, 5, NULL, '1997-07-29', NULL, NULL, '2021-01-25 23:42:36', '2021-01-26 15:11:59'),
+(4, 6, NULL, NULL, NULL, NULL, '2021-01-29 03:59:41', '2021-01-29 03:59:41');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `delivery`
+--
+
+CREATE TABLE `delivery` (
+  `dv_id` int(11) NOT NULL,
+  `cs_id` int(11) DEFAULT NULL,
+  `dv_dt` enum('DI','DD','PU') DEFAULT NULL,
+  `dv_yn` enum('Y','N') DEFAULT NULL,
+  `dv_st` time DEFAULT NULL,
+  `dv_address` text DEFAULT NULL,
+  `dv_created_at` timestamp NULL DEFAULT current_timestamp(),
+  `dv_updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `delivery`
+--
+
+INSERT INTO `delivery` (`dv_id`, `cs_id`, `dv_dt`, `dv_yn`, `dv_st`, `dv_address`, `dv_created_at`, `dv_updated_at`) VALUES
+(4, 2, 'DI', 'Y', '12:00:00', 'Malang', '2021-01-25 09:23:33', '2021-01-26 01:48:26'),
+(16, 3, 'PU', 'Y', '15:00:00', 'Bojong Gede', '2021-01-28 15:37:03', '2021-01-28 15:37:03'),
+(18, 3, 'PU', 'Y', '15:00:00', 'Pondok Gede', '2021-01-28 16:00:42', '2021-01-28 16:00:42'),
+(19, 3, 'PU', 'Y', '15:00:00', 'Cakung', '2021-01-28 16:00:48', '2021-01-28 16:00:48'),
+(20, 1, 'PU', 'Y', '15:00:00', 'Cakung', '2021-01-30 07:28:47', '2021-01-30 07:28:47');
 
 -- --------------------------------------------------------
 
@@ -97,20 +143,18 @@ INSERT INTO `customer` (`cs_id`, `ac_id`, `cs_address`, `cs_image`, `cs_created_
 
 CREATE TABLE `discount` (
   `dc_id` int(11) NOT NULL,
-  `dc_nominal` double DEFAULT NULL
+  `dc_nominal` double DEFAULT NULL,
+  `dc_created_at` timestamp NULL DEFAULT current_timestamp(),
+  `dc_updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `discount`
 --
 
-INSERT INTO `discount` (`dc_id`, `dc_nominal`) VALUES
-(1, 0.1),
-(2, 0.2),
-(3, 0.3),
-(4, 0.4),
-(5, 0.5),
-(6, 0.6);
+INSERT INTO `discount` (`dc_id`, `dc_nominal`, `dc_created_at`, `dc_updated_at`) VALUES
+(1, 0, '2021-01-25 00:53:14', '2021-01-25 00:53:14'),
+(2, 0.1, '2021-01-25 00:53:49', '2021-01-25 00:53:49');
 
 -- --------------------------------------------------------
 
@@ -120,12 +164,14 @@ INSERT INTO `discount` (`dc_id`, `dc_nominal`) VALUES
 
 CREATE TABLE `order_detail` (
   `od_id` int(11) NOT NULL,
-  `or_id` int(11) DEFAULT NULL,
   `cs_id` int(11) DEFAULT NULL,
-  `pr_id` int(11) DEFAULT NULL,
-  `od_size` enum('R','L','XL') DEFAULT NULL,
-  `od_amount` int(11) DEFAULT NULL,
-  `od_price` int(11) DEFAULT NULL,
+  `dv_id` int(11) DEFAULT NULL,
+  `od_total_price_before_tax` int(11) DEFAULT NULL,
+  `co_id` int(11) DEFAULT NULL,
+  `od_totalPrice` int(11) DEFAULT NULL,
+  `od_status` enum('Unpaid','Paid','Ready','Deliver','Done') DEFAULT NULL,
+  `od_payment_method` enum('Card','Bank','COD') DEFAULT NULL,
+  `od_tax` int(11) DEFAULT NULL,
   `od_created_at` timestamp NULL DEFAULT current_timestamp(),
   `od_updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -134,8 +180,9 @@ CREATE TABLE `order_detail` (
 -- Dumping data untuk tabel `order_detail`
 --
 
-INSERT INTO `order_detail` (`od_id`, `or_id`, `cs_id`, `pr_id`, `od_size`, `od_amount`, `od_price`, `od_created_at`, `od_updated_at`) VALUES
-(1, 1, 1, 1, 'L', 12, 50000, '2021-01-22 16:14:13', '2021-01-23 02:47:18');
+INSERT INTO `order_detail` (`od_id`, `cs_id`, `dv_id`, `od_total_price_before_tax`, `co_id`, `od_totalPrice`, `od_status`, `od_payment_method`, `od_tax`, `od_created_at`, `od_updated_at`) VALUES
+(1, 2, 4, 85000, NULL, 93500, 'Done', 'COD', 8500, '2021-01-25 09:42:33', '2021-01-26 02:39:12'),
+(16, 1, 20, 25000, NULL, 27500, 'Paid', 'Card', 2500, '2021-01-30 07:29:27', '2021-01-30 07:29:27');
 
 -- --------------------------------------------------------
 
@@ -145,15 +192,12 @@ INSERT INTO `order_detail` (`od_id`, `or_id`, `cs_id`, `pr_id`, `od_size`, `od_a
 
 CREATE TABLE `order_tb` (
   `or_id` int(11) NOT NULL,
+  `pr_id` int(11) DEFAULT NULL,
   `cs_id` int(11) DEFAULT NULL,
-  `or_dt` enum('DI','DD','PU') DEFAULT NULL,
-  `or_yn` enum('Y','N') DEFAULT NULL,
-  `or_st` time DEFAULT NULL,
-  `or_status` enum('Cart','Unpaid','Paid','Ready','Deliver','Done') DEFAULT NULL,
-  `or_address` text DEFAULT NULL,
-  `or_method` enum('Card','Bank','COD') DEFAULT NULL,
-  `or_tax` double DEFAULT NULL,
-  `or_total` int(11) DEFAULT NULL,
+  `or_status` enum('Cart','Done') DEFAULT NULL,
+  `or_amount` int(11) DEFAULT NULL,
+  `or_price` int(11) DEFAULT NULL,
+  `od_id` int(11) DEFAULT NULL,
   `or_created_at` timestamp NULL DEFAULT current_timestamp(),
   `or_updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -162,8 +206,10 @@ CREATE TABLE `order_tb` (
 -- Dumping data untuk tabel `order_tb`
 --
 
-INSERT INTO `order_tb` (`or_id`, `cs_id`, `or_dt`, `or_yn`, `or_st`, `or_status`, `or_address`, `or_method`, `or_tax`, `or_total`, `or_created_at`, `or_updated_at`) VALUES
-(1, 1, 'DI', 'Y', '07:00:00', 'Unpaid', 'Bekasi', 'Card', 0.1, 21, '2021-01-22 19:05:46', '2021-01-23 03:16:20');
+INSERT INTO `order_tb` (`or_id`, `pr_id`, `cs_id`, `or_status`, `or_amount`, `or_price`, `od_id`, `or_created_at`, `or_updated_at`) VALUES
+(3, 1, 2, 'Done', 8, 200000, 1, '2021-01-25 09:01:33', '2021-01-27 16:16:52'),
+(20, 7, 2, 'Cart', 1, 24300, NULL, '2021-01-28 15:12:48', '2021-01-28 15:12:48'),
+(21, 1, 1, 'Done', 1, 25000, 16, '2021-01-30 07:27:58', '2021-01-30 07:32:11');
 
 -- --------------------------------------------------------
 
@@ -178,12 +224,8 @@ CREATE TABLE `product` (
   `pr_desc` text DEFAULT NULL,
   `pr_unit_price` int(11) DEFAULT NULL,
   `pr_image` text DEFAULT NULL,
-  `pr_size` enum('R','L','XL') DEFAULT NULL,
-  `pr_category` enum('Favorite','Promo','None') DEFAULT NULL,
-  `pr_day_start_deliv` text DEFAULT NULL,
-  `pr_day_end_deliv` text DEFAULT NULL,
-  `pr_time_start_deliv` time DEFAULT NULL,
-  `pr_time_end_deliv` time DEFAULT NULL,
+  `pr_favorite` enum('Y','N') DEFAULT NULL,
+  `pr_category` enum('Food','Drink') DEFAULT NULL,
   `pr_created_at` timestamp NULL DEFAULT current_timestamp(),
   `pr_updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -192,9 +234,11 @@ CREATE TABLE `product` (
 -- Dumping data untuk tabel `product`
 --
 
-INSERT INTO `product` (`pr_id`, `dc_id`, `pr_name`, `pr_desc`, `pr_unit_price`, `pr_image`, `pr_size`, `pr_category`, `pr_day_start_deliv`, `pr_day_end_deliv`, `pr_time_start_deliv`, `pr_time_end_deliv`, `pr_created_at`, `pr_updated_at`) VALUES
-(1, 1, 'Coffee Latte', 'good taste of vanilla', 40000, 'image', 'L', 'Favorite', 'Monday', 'Tuesday', '08:00:00', '17:00:00', '2021-01-20 07:27:38', '2021-01-23 03:15:17'),
-(2, 2, 'Matcha Latte', 'good matcha latte', 36000, 'image', 'R', 'None', 'Monday', 'Friday', '07:00:00', '17:00:00', '2021-01-20 11:39:47', '2021-01-23 03:15:20');
+INSERT INTO `product` (`pr_id`, `dc_id`, `pr_name`, `pr_desc`, `pr_unit_price`, `pr_image`, `pr_favorite`, `pr_category`, `pr_created_at`, `pr_updated_at`) VALUES
+(1, 1, 'Hazelnut Latte', 'good taste of hazelnut latte', 25000, 'IMG-1611564216226.png', 'Y', 'Drink', '2021-01-25 08:43:36', '2021-01-25 08:43:36'),
+(4, 1, 'Creamy Ice Latte', 'good taste of creamy ice latte', 27000, 'IMG-1611578879909.png', 'Y', 'Drink', '2021-01-25 12:47:59', '2021-01-25 12:47:59'),
+(7, 2, 'Choco Oreo', 'Good taste of choco oreo', 27000, 'IMG-1611663972201.png', 'Y', 'Drink', '2021-01-26 12:03:42', '2021-01-26 12:26:12'),
+(8, 2, 'Bakwan Malang', 'Hot Spicy', 30000, 'IMG-1611663972201.png', 'Y', 'Food', '2021-01-26 12:03:42', '2021-01-26 12:26:12');
 
 --
 -- Indexes for dumped tables
@@ -214,11 +258,23 @@ ALTER TABLE `admin`
   ADD KEY `ac_id` (`ac_id`);
 
 --
+-- Indeks untuk tabel `coupon`
+--
+ALTER TABLE `coupon`
+  ADD PRIMARY KEY (`co_id`);
+
+--
 -- Indeks untuk tabel `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`cs_id`),
   ADD KEY `ac_id` (`ac_id`);
+
+--
+-- Indeks untuk tabel `delivery`
+--
+ALTER TABLE `delivery`
+  ADD PRIMARY KEY (`dv_id`);
 
 --
 -- Indeks untuk tabel `discount`
@@ -231,16 +287,18 @@ ALTER TABLE `discount`
 --
 ALTER TABLE `order_detail`
   ADD PRIMARY KEY (`od_id`),
-  ADD KEY `or_id` (`or_id`),
   ADD KEY `cs_id` (`cs_id`),
-  ADD KEY `pr_id` (`pr_id`);
+  ADD KEY `dv_id` (`dv_id`),
+  ADD KEY `co_id` (`co_id`);
 
 --
 -- Indeks untuk tabel `order_tb`
 --
 ALTER TABLE `order_tb`
   ADD PRIMARY KEY (`or_id`),
-  ADD KEY `cs_id` (`cs_id`);
+  ADD KEY `cs_id` (`cs_id`),
+  ADD KEY `pr_id` (`pr_id`),
+  ADD KEY `od_id` (`od_id`);
 
 --
 -- Indeks untuk tabel `product`
@@ -257,43 +315,55 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT untuk tabel `account`
 --
 ALTER TABLE `account`
-  MODIFY `ac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `coupon`
+--
+ALTER TABLE `coupon`
+  MODIFY `co_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `cs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT untuk tabel `delivery`
+--
+ALTER TABLE `delivery`
+  MODIFY `dv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `discount`
 --
 ALTER TABLE `discount`
-  MODIFY `dc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `dc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `od_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `od_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_tb`
 --
 ALTER TABLE `order_tb`
-  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `product`
 --
 ALTER TABLE `product`
-  MODIFY `pr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -315,21 +385,23 @@ ALTER TABLE `customer`
 -- Ketidakleluasaan untuk tabel `order_detail`
 --
 ALTER TABLE `order_detail`
-  ADD CONSTRAINT `order_detail_ibfk_1` FOREIGN KEY (`or_id`) REFERENCES `order_tb` (`or_id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `order_detail_ibfk_2` FOREIGN KEY (`cs_id`) REFERENCES `customer` (`cs_id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `order_detail_ibfk_3` FOREIGN KEY (`pr_id`) REFERENCES `product` (`pr_id`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `order_detail_ibfk_2` FOREIGN KEY (`cs_id`) REFERENCES `customer` (`cs_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_detail_ibfk_3` FOREIGN KEY (`dv_id`) REFERENCES `delivery` (`dv_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_detail_ibfk_5` FOREIGN KEY (`co_id`) REFERENCES `coupon` (`co_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `order_tb`
 --
 ALTER TABLE `order_tb`
-  ADD CONSTRAINT `order_tb_ibfk_1` FOREIGN KEY (`cs_id`) REFERENCES `customer` (`cs_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `order_tb_ibfk_1` FOREIGN KEY (`cs_id`) REFERENCES `customer` (`cs_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_tb_ibfk_2` FOREIGN KEY (`pr_id`) REFERENCES `product` (`pr_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_tb_ibfk_3` FOREIGN KEY (`od_id`) REFERENCES `order_detail` (`od_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `product`
 --
 ALTER TABLE `product`
-  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`dc_id`) REFERENCES `discount` (`dc_id`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`dc_id`) REFERENCES `discount` (`dc_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -15,6 +15,21 @@ const {
 
 module.exports = {
 
+    getAllOrderDetail: async (_req, res, _next) => {
+        try {
+          const result = await model.getAllOrderDetail()
+    
+          if (result.length) {
+             console.log(result);
+            stat.statusGet(res, result)
+          } else {
+            stat.statusNotFound(res)
+          }
+        } catch (error) {
+          stat.statusServerError(res)
+        }
+      },
+
     getAllOrderDetailByCsId: async (req, res) => {
         try {
             const {
@@ -109,7 +124,6 @@ module.exports = {
                 stat.statusMustFillAllFields(res)
             }
         } catch (error) {
-            console.log(error)
             stat.statusErrorServer(res)
         }
     },
@@ -133,7 +147,6 @@ module.exports = {
                 stat.statusNotFound(res)
             }
         } catch (error) {
-            console.log(error)
             stat.statusErrorServer(res)
         }
     },
@@ -183,8 +196,28 @@ module.exports = {
                 stat.statusNotFound(res)
             }
         } catch (error) {
-            console.log(error)
             stat.statusErrorServer(res)
         }
     },
+    deleteOrderDetail: async (req, res) => {
+        try {
+          const {
+            odId
+          } = req.params
+          const resultSelect = await model.getOrderDetailByOdId(odId)
+    
+          if (resultSelect.length) {
+            const resultDelete = await model.deleteOrderDetail(odId)
+            if (resultDelete.affectedRows) {
+              stat.statusDelete(res)
+            } else {
+              stat.statusDeleteFail(res)
+            }
+          } else {
+            stat.statusNotFound(res)
+          }
+        } catch (error) {
+          stat.statusServerError(res, error)
+        }
+      }
 }
