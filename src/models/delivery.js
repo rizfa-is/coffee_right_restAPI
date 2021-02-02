@@ -75,9 +75,10 @@ module.exports = {
   deleteDeliveryByCsIdModel: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
-          DELETE FROM delivery 
-          WHERE dv_id IN (SELECT * FROM (SELECT MAX(dv_id) FROM delivery) AS something) AND cs_id = '${csId}'
-       `
+      DELETE FROM delivery 
+      WHERE dv_id IN (SELECT * FROM (SELECT MAX(dv_id) FROM delivery) AS something) 
+      AND cs_id = '${csId}'
+          `
 
       db.query(query, (error, result, _fields) => {
         if (!error) {

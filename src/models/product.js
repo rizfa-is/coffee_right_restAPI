@@ -128,5 +128,35 @@ module.exports = {
         }
       })
     })
+  },
+
+  getFilterProductModel: (paginate) => {
+    return new Promise((resolve, reject) => {
+      const filter = parseInt(paginate.filter)
+      let fill
+      let where
+
+      if (filter === 0) {
+        fill = 'pr_category ASC'
+        where = "WHERE pr_category = 'Drink'"
+      } else {
+        fill = 'pr_category ASC'
+        where = "WHERE pr_category = 'Food'"
+      }
+
+      const query = `
+          SELECT * FROM product 
+          ${where} ORDER BY ${fill}
+           LIMIT ${paginate.limit} 
+        `
+
+      db.query(query, async (err, result, fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
   }
 }

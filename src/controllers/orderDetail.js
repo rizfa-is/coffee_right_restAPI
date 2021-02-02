@@ -46,6 +46,24 @@ module.exports = {
             stat.statusError(res)
         }
     },
+
+    getAllOrderDetailWithOrderByOdId: async (req, res) => {
+        try {
+            const {
+                odId
+            } = req.params
+            const result = await model.getAllOrderDetailWithOrderByOdIdModel(odId)
+
+            if (result.length) {
+                stat.statusGet(res, result)
+            } else {
+                stat.statusNotFound(res)
+            }
+        } catch (error) {
+            stat.statusError(res)
+        }
+    },
+
     getAllODById: async (req, res) => {
         try {
             const {

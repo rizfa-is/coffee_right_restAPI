@@ -109,7 +109,7 @@ module.exports = {
       const query = `
         UPDATE order_tb
           SET ?
-        WHERE or_id = '${orId}'
+        WHERE or_id = '${orId}' && or_status = 'Cart'
       `
 
       dbConnect.query(query, data, (error, results, _fields) => {
@@ -199,9 +199,8 @@ module.exports = {
   historyOrderByOdId: (odId) => {
     return new Promise((resolve, reject) => {
       const query = `
-      SELECT *
-      FROM order_tb o 
-      join product p on o.pr_id = p.pr_id
+      SELECT p.pr_id, p.pr_name, p.pr_image, o.or_price, od.od_status, o.or_amount 
+      FROM order_tb o join product p on o.pr_id = p.pr_id
       join order_detail od on o.od_id = od.od_id
       WHERE o.od_id = '${odId}' 
       `
