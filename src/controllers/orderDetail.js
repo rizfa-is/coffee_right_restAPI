@@ -1,7 +1,9 @@
 require('dotenv').config
+const {v1: uuidv1} = require('uuid')
 
 const stat = require('../helpers/status')
 const model = require('../models/orderDetail')
+
 const {
     getProductByPrIdModel
 } = require('../models/product')
@@ -81,6 +83,7 @@ module.exports = {
             stat.statusError(res)
         }
     },
+
     createOrderDetail: async (req, res) => {
         try {
             const {
@@ -101,10 +104,10 @@ module.exports = {
             }
             const odTax = subTotal * 0.1
             const odTotalPrice = subTotal + odTax
-
             const data = {
                 cs_id: csId,
                 dv_id: dvId,
+                od_transaction_id : uuidv1(),
                 od_total_price_before_tax: subTotal,
                 od_totalPrice: odTotalPrice,
                 od_status: odStatus,
@@ -127,6 +130,7 @@ module.exports = {
             stat.statusErrorServer(res)
         }
     },
+
     updateOrderDetail: async (req, res) => {
         try {
             const {
