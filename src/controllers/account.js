@@ -141,8 +141,7 @@ module.exports = {
                 ad_image: result[0].ad_image
               }
             }
-
-            JWT.sign({ payload }, process.env.JWT_KEY, { expiresIn: '1m' }, (err, token) => {
+            JWT.sign({ payload }, process.env.JWT_KEY, { expiresIn: '7d' }, (err, token) => {
               if (token) {
                 JWT.verify(token, process.env.JWT_KEY, (_err, data) => {
                   const result = {
