@@ -41,11 +41,12 @@ module.exports = {
   getAllOrderDetailWithOrderByOdIdModel: (odId) => {
     return new Promise((resolve, reject) => {
       const query = `
-      SELECT od.od_id, od.cs_id, dv.dv_dt, dv.dv_address, od.od_total_price_before_tax, od.od_totalPrice, 
-      od.od_status, od.od_payment_method, od.od_tax, od.od_created_at, od.od_updated_at FROM order_detail od 
+      SELECT od.od_id, od.cs_id, dv.dv_dt, dv.dv_address, od.od_total_price_before_tax, od.od_totalPrice, ac.ac_name, ac.ac_email, ac.ac_phone,
+      od.od_transaction_id, od.od_status, od.od_payment_method, od.od_tax, od.od_created_at, od.od_updated_at FROM order_detail od 
       JOIN order_tb o ON (od.od_id = o.od_id)
       JOIN product pr ON (o.pr_id = pr.pr_id)
       JOIN delivery dv ON (od.dv_id = dv.dv_id)
+      JOIN account ac JOIN customer cs ON ac.ac_id = cs.ac_id
       WHERE od.od_id = ${odId}
       `
 
@@ -64,6 +65,7 @@ module.exports = {
               dv_dt: item.dv_dt,
               dv_address: item.dv_address,
               od_total_price_before_tax: item.od_total_price_before_tax,
+              od_transaction_id: item.od_transaction_id,
               od_total_price: item.od_totalPrice,
               od_status: item.od_status,
               od_payment_method: item.od_payment_method,
