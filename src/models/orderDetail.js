@@ -4,12 +4,6 @@ const {
   historyOrderByOdId
 } = require('../models/order')
 
-const dbConnect = require('../config/db')
-
-const {
-  historyOrderByOdId
-} = require('../models/order')
-
 module.exports = {
 
   getAllOrderDetail: () => {
@@ -38,10 +32,10 @@ module.exports = {
       JOIN delivery dv ON (od.dv_id = dv.dv_id)
       JOIN customer cs ON (od.cs_id = cs.cs_id)
       JOIN account ac ON (ac.ac_id = cs.ac_id)
-      WHERE cs_id = '${csId}'
+      WHERE od.cs_id = '${csId}'
       `
 
-      dbConnect.query(query, (error, results, _fields) => {
+      dbConnect.query(query, async (error, results, _fields) => {
         if (!error) {
           const data = []
 
@@ -72,6 +66,7 @@ module.exports = {
           }
           resolve(data)
         } else {
+          console.log(error);
           reject(error)
         }
       })
