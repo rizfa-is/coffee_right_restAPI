@@ -46,7 +46,7 @@ module.exports = {
       JOIN order_tb o ON (od.od_id = o.od_id)
       JOIN product pr ON (o.pr_id = pr.pr_id)
       JOIN delivery dv ON (od.dv_id = dv.dv_id)
-      JOIN account ac JOIN customer cs ON ac.ac_id = cs.ac_id
+      JOIN customer cs ON (od.cs_id = cs.cs_id) JOIN account ac ON (ac.ac_id = cs.ac_id)
       WHERE od.od_id = ${odId}
       `
 
@@ -62,6 +62,9 @@ module.exports = {
             data[i] = {
               od_id: item.od_id,
               cs_id: item.cs_id,
+              cs_name: item.ac_name,
+              cs_email: item.ac_email,
+              cs_phone: item.ac_phone,
               dv_dt: item.dv_dt,
               dv_address: item.dv_address,
               od_total_price_before_tax: item.od_total_price_before_tax,
