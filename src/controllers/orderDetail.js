@@ -5,9 +5,6 @@ const stat = require('../helpers/status')
 const model = require('../models/orderDetail')
 
 const {
-    getProductByPrIdModel
-} = require('../models/product')
-const {
     getAllOrderByIdCustomerNStatusCart,
     getLastOdIdByCsId
 } = require('../models/order')
