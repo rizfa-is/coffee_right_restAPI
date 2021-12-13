@@ -1,27 +1,20 @@
 require('dotenv').config()
-const mysql = require('mysql2/promise')
+const mysql = require('mysql')
 
-const insertIntoDB = async () => {
-  const conn = await mysql.createConnection({
-    host: "sql4.freesqldatabase.com",
-    user: "sql4458514",
-    password: "fb89HRcPMx",
-    database: "sql4458514",
-    port: 3306,
-  })
+const conn = mysql.createConnection({
+  host: "sql4.freesqldatabase.com",
+  user: "sql4458514",
+  password: "fb89HRcPMx",
+  database: "sql4458514",
+  port: 3306,
+})
 
-  try {
-    await conn.query(
-      "SELECT * FROM account"
-    )
-
+conn.connect(err => {
+  if (err) {
+    console.error(err)
+  } else {
     console.log('Database Coffee Right connected')
-  } catch (error) {
-    console.log(error)
   }
-}
+})
 
-insertIntoDB()
-
-
-module.exports = insertIntoDB.conn
+module.exports = conn
