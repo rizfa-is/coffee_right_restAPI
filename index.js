@@ -42,7 +42,7 @@ app.use('/order', orderRouter)
 app.use('/discount', discountRouter)
 app.use('/delivery', deliveryRouter)
 
-app.get('/', (req, res) => {
+app.get('/coffee-right/1.0', (req, res) => {
   res.send('Welcome to Coffee Right')
 })
 
