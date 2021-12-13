@@ -67,6 +67,7 @@ module.exports = {
       }
     } catch (error) {
       statusErrorServer(res, error)
+      console.log(error)
     }
   },
   getFilterProduct: async (req, res, _next) => {
