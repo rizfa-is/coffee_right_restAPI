@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 module.exports = {
   formatDate: (date) => {
     return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-') + ' ' +
@@ -8,5 +10,9 @@ module.exports = {
     const months = Number(momentDate.format('MM'))
     const years = Number(momentDate.format('YYYY'))
     return months + (years * 12)
+  },
+
+  nowDate: () => {
+    return moment().format('YYYY-MM-DD HH:mm:ss')
   }
 }

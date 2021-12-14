@@ -1,4 +1,5 @@
 const dbConnect = require('../config/db')
+const date = require('../helpers/date')
 
 const { createCustomer } = require('./customer')
 const { createAdmin } = require('./admin')
@@ -11,7 +12,9 @@ module.exports = {
         ac_email: data.ac_email,
         ac_phone: data.ac_phone,
         ac_password: data.ac_password,
-        ac_level: data.ac_level
+        ac_level: data.ac_level,
+        ac_created_at: date.nowDate,
+        ac_updated_at: date.nowDate
       }
 
       const query = `
@@ -39,13 +42,18 @@ module.exports = {
 
   updateAccount: (acId, data) => {
     return new Promise((resolve, reject) => {
+      const dataUpdate = {
+        ...data,
+        ac_created_at: date.nowDate,
+        ac_updated_at: date.nowDate
+      }
       const query = `
         UPDATE account
            SET ?
          WHERE ac_id = ${acId}
       `
 
-      dbConnect.query(query, data, (error, results, _fields) => {
+      dbConnect.query(query, dataUpdate, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
