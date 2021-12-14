@@ -13,8 +13,7 @@ module.exports = {
         ac_phone: data.ac_phone,
         ac_password: data.ac_password,
         ac_level: data.ac_level,
-        ac_created_at: date.nowDate(),
-        ac_updated_at: date.nowDate()
+        ac_created_at: date.nowDate()
       }
 
       const query = `
@@ -44,7 +43,6 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const dataUpdate = {
         ...data,
-        ac_created_at: date.nowDate(),
         ac_updated_at: date.nowDate()
       }
       const query = `

@@ -1,4 +1,5 @@
 const db = require('../config/db')
+const date = require('../helpers/date')
 
 module.exports = {
   getAllDeliveryModel: () => {
@@ -38,12 +39,16 @@ module.exports = {
 
   createDeliveryModel: (data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        dv_created_at: date.nowDate()
+      }
       const query = `
             INSERT INTO delivery
                     SET ?
           `
 
-      db.query(query, data, (error, result, _fields) => {
+      db.query(query, newData, (error, result, _fields) => {
         if (!error) {
           resolve(result)
         } else {
@@ -55,13 +60,17 @@ module.exports = {
 
   updateDeliveryModel: (dvId, data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        dv_updated_at: date.nowDate()
+      }
       const query = `
             UPDATE delivery
                SET ?
              WHERE dv_id = '${dvId}'
           `
 
-      db.query(query, data, (error, result, _fields) => {
+      db.query(query, newData, (error, result, _fields) => {
         if (!error) {
           resolve(result)
         } else {

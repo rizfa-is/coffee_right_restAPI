@@ -1,14 +1,19 @@
 const dbConnect = require('../config/db')
+const date = require('../helpers/date')
 
 module.exports = {
   createAdmin: (data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        ad_created_at: date.nowDate()
+      }
       const query = `
         INSERT INTO admin
                 SET ?
       `
 
-      dbConnect.query(query, data, (error, results, _fields) => {
+      dbConnect.query(query, newData, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
@@ -86,13 +91,17 @@ module.exports = {
 
   updateAdmin: (adId, data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        ad_updated_at: date.nowDate()
+      }
       const query = `
         UPDATE admin
            SET ?
          WHERE ad_id = ${adId}
       `
 
-      dbConnect.query(query, data, (error, results, _fields) => {
+      dbConnect.query(query, newData, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {

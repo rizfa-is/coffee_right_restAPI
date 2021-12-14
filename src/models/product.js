@@ -1,4 +1,5 @@
 const db = require('../config/db')
+const date = require('../helpers/date')
 
 module.exports = {
   getAllProductModel: (paginate) => {
@@ -92,9 +93,13 @@ module.exports = {
   },
   addProductModel: (data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        pr_created_at: date.nowDate()
+      }
       const query = 'INSERT INTO product SET ?'
 
-      db.query(query, data, (err, result, fields) => {
+      db.query(query, newData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
@@ -105,9 +110,13 @@ module.exports = {
   },
   updateProductByPrIdModel: (data, prId) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        pr_updated_at: date.nowDate()
+      }
       const query = `UPDATE product SET ? WHERE pr_id = ${prId}`
 
-      db.query(query, data, (err, result, fields) => {
+      db.query(query, newData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {

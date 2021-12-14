@@ -1,14 +1,19 @@
 const dbConnect = require('../config/db')
+const date = require('../helpers/date')
 
 module.exports = {
   createCustomer: (acId) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ac_id: acId,
+        cs_created_at: date.nowDate()
+      }
       const query = `
         INSERT INTO customer
                 SET ?
       `
 
-      dbConnect.query(query, { ac_id: acId }, (error, results, _fields) => {
+      dbConnect.query(query, newData, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
@@ -102,13 +107,17 @@ module.exports = {
 
   updateCustomer: (csId, data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        cs_updated_at: date.nowDate()
+      }
       const query = `
         UPDATE customer
            SET ?
          WHERE cs_id = '${csId}'
       `
 
-      dbConnect.query(query, data, (error, results, _fields) => {
+      dbConnect.query(query, newData, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {

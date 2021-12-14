@@ -1,15 +1,20 @@
 const dbConnect = require('../config/db')
+const date = require('../helpers/date')
 
 module.exports = {
 
   createOrder: (data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        or_created_at: date.nowDate()
+      }
       const query = `
         INSERT INTO order_tb
                 SET ?
       `
 
-      dbConnect.query(query, data, (error, results, _fields) => {
+      dbConnect.query(query, newData, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
@@ -106,13 +111,17 @@ module.exports = {
 
   updateOrder: (orId, data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        or_updated_at: date.nowDate()
+      }
       const query = `
         UPDATE order_tb
           SET ?
         WHERE or_id = '${orId}' && or_status = 'Cart'
       `
 
-      dbConnect.query(query, data, (error, results, _fields) => {
+      dbConnect.query(query, newData, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {

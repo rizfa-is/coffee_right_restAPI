@@ -1,15 +1,19 @@
 const dbConnect = require('../config/db')
+const date = require('../helpers/date')
 
 module.exports = {
-
   createDiscount: (data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        dc_created_at: date.nowDate()
+      }
       const query = `
           INSERT INTO discount
                   SET ?
         `
 
-      dbConnect.query(query, data, (error, results, _fields) => {
+      dbConnect.query(query, newData, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
@@ -56,13 +60,17 @@ module.exports = {
 
   updateDiscount: (dcId, data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        dc_updated_at: date.nowDate()
+      }
       const query = `
           UPDATE discount
              SET ?
            WHERE dc_id = '${dcId}'
         `
 
-      dbConnect.query(query, data, (error, results, _fields) => {
+      dbConnect.query(query, newData, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {

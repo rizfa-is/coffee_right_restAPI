@@ -1,11 +1,11 @@
 const dbConnect = require('../config/db')
+const date = require('../helpers/date')
 
 const {
   historyOrderByOdId
 } = require('../models/order')
 
 module.exports = {
-
   getAllOrderDetail: () => {
     return new Promise((resolve, reject) => {
       const query = `
@@ -170,9 +170,13 @@ module.exports = {
   },
   createOrderDetailModel: (data) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        od_created_at: date.nowDate()
+      }
       const query = 'INSERT INTO order_detail SET ?'
 
-      dbConnect.query(query, data, (err, result, fields) => {
+      dbConnect.query(query, newData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
@@ -183,9 +187,13 @@ module.exports = {
   },
   updateOrderDetailModel: (data, odId) => {
     return new Promise((resolve, reject) => {
+      const newData = {
+        ...data,
+        od_updated_at: date.nowDate()
+      }
       const query = `UPDATE order_detail SET ? WHERE od_id = ${odId}`
 
-      dbConnect.query(query, data, (err, result, fields) => {
+      dbConnect.query(query, newData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
