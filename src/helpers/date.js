@@ -12,7 +12,5 @@ module.exports = {
     return months + (years * 12)
   },
 
-  nowDate: () => {
-    return moment().format('YYYY-MM-DD HH:mm:ss')
-  }
+  nowDate = moment().format('YYYY-MM-DD HH:mm:ss')
 }
